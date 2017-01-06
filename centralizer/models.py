@@ -14,7 +14,7 @@ class Tag(models.Model):
     added = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.tagname
+        return self.tagname.title()
 
     class Meta:
         ordering = ['tagname']
