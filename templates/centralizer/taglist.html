@@ -1,0 +1,17 @@
+{% extends parent_template|default:"base.html" %}
+{% block title %}
+{# Overrides parent block #}
+{{  block.super }} - List of Tags
+{% endblock %}
+<h2>List of Tags</h2>
+<ul>
+    {% for tag in taglist %}
+    <li>
+        <a href="">
+            {{ tag.tagname|title }}
+        </a>
+    </li>
+        {% empty %}
+        <li><em>There are no Tags available</em></li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,58 @@
+{% extends parent_template|default:"base.html" %}
+{% block title %}
+{# Overrides parent block #}
+{{  block.super }} - Company Details
+{% endblock %}
+<article>
+<h2>{{ company.company_name }}</h2>
+<dl>
+    <dt>Founded</dt>
+{# The date bellow is considered a datetime object, being equivalent with {{ company.founded_date|date }}#}
+    <dd>{{ company.founded_date }}</dd>
+    <dt>Website</dt>
+    <dd>{{ company.founded_date|date:"F jS, Y" }}</dd>
+    <dt>Website</dt>
+    <dd><a href="{{ company.website|urlize }}">{{ company.website }}</a></dd>
+    <dt>Email Address</dt>
+    <dd>{{ company.email }}</dd>
+
+    <dt>Tag{{ company.tags.count|pluralize }}</dt>
+    {% for tag in company.tags.all %}
+    <dd><a href="">{{ tag.tagname|title }}</a> </dd>
+    {% endfor %}
+</dl>
+
+{{ company.description|linebreaks }}
+
+{% if company.relatednews_set.all %}
+<section>
+    <h3>Related News</h3>
+    <ul>
+        {% for news in company.relatednews_set.all %}
+        <li>
+            <a href="">
+                {{ news.tile|title }}
+            </a>
+        {% endfor %}
+        </li>
+    </ul>
+</section>
+{% endif %}
+
+{% if company.articles.all %}
+    <section>
+    <h3>
+        Article{{ company.article.count|pluralize }}
+    </h3>
+    <ul>
+        {% for art in company.articles.all %}
+        <li>
+            <a href="">
+                {{ art.title|title }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    </section>
+{% endif %}
+</article>

@@ -1,0 +1,38 @@
+{% extends parent_template|default:"base.html" %}
+{% block title %}
+{# Overrides parent block #}
+{{  block.super }} - Tag Details
+{% endblock %}
+{# we use the pipe simbol to apply filters to variables (like capitilize the names and titles) #}
+<h2> {{ tag.tagname|title }} </h2><!-- name of tag -->
+{% if tag.companies.all %}
+    <p>Tag is associated with
+    {{ tag.companies.count }}
+    compan{{ tag.companies.count|pluralize:"y,ies" }}.
+    </p>
+<section>
+    <h3>Compan{{ tag.companies.count|pluralize:"y,ies" }}</h3>
+    <ul><!-- list of companies related to the tag -->
+        {# in Django we remove the parantheses from the method .all() ==> .all #}
+        {% for comp in tag.companies.all %}
+            {# We don't capitalize the company name, because it may have customize capitalization #}
+            <li><a href=""> {{ comp.company_name }} </a></li>
+        {% endfor %}
+        {# don't forget to close the for, because in templates we have scope #}
+    </ul>
+</section>
+{% endif %}
+{% if tag.articles.all %}
+<section>
+    <h3>Articles</h3>
+    <ul><!-- list of articles related to the tag -->
+        {% for art in tag.articles.all %}
+            {# we use the pipe simbol to apply filters to variables (like capitilize the names and titles) #}
+            <li><a href=""> {{ art.title|title }} </a></li>
+        {% endfor %}
+    </ul>
+</section>
+{% endif %}
+{% if not tag.companies.all and not tag.articles.all %}
+    <p>This tag has no content associated to it</p>
+{% endif %}

@@ -1,0 +1,47 @@
+{% extends parent_template|default:"base.html" %}
+{% block title %}
+{# Overrides parent block #}
+{{  block.super }} - Article Details
+{% endblock %}
+<article>
+    <header>
+        <h2>{{ article.title|title }}</h2>
+        <p><time datetime=" Written on:{{ article.added|date:"Y-m-d" }}">{{ article.added|date:"l, F j, Y" }}</time></p>
+    </header>
+
+    {{ article.content|linebreaks }}
+    <footer>
+    {% if article.companies.all or article.tags.all %}
+
+    {% if article.companies.all %}
+    <section>
+        <h3>Compan{{ article.companies.count|pluralize:"y,ies" }}</h3>
+        <ul>
+            {% for comp in article.companies.all %}
+            <li>
+                <a href="">
+                    {{ comp.company_name|title }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    {% if article.tags.all %}
+    <section>
+        <h3>Tag{{ article.tags.count|pluralize }}</h3>
+        <ul>
+            {% for tag in article.tags.all %}
+            <li>
+                <a href="">
+                    {{ tag.tagname|title }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+    </footer>
+    {% endif %}
+</article>
