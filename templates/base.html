@@ -2,9 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    {% block title %}Companies{% endblock %}
+    <title>
+            {% block title %}Companies{% endblock %}
+    </title>
 </head>
 <body>
-
+<div>
+    <header>
+        <main>
+            {% block content %}
+            This is the default content
+            {% endblock %}
+        </main>
+    </header>
+</div>
+<div>
+    <p>
+        Some notes at the end
+    </p>
+</div>
 </body>
 </html>

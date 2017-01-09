@@ -15,9 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from centralizer.views import home
+from centralizer.views import home, tagdetails
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home),
+    #Acest artificiu este facut pentru a denumi un grup (un segment al expresiei regulate)
+    #pentru a-l trimite functiei tagdetails ca parametru
+    #daca url-ul nostru este http://127.0.0.1:8000/tag/django, noi apelam tagdetails(request, slug='django')
+    #also a good idea is to name your url
+    url(r'^tag/(?P<slug>[\w\-]+)/$', tagdetails, name='centralizer_tagdetails'),
 ]

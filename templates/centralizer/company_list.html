@@ -1,8 +1,9 @@
-{% extends parent_template|default:"base.html" %}
+{% extends parent_template|default:"centralizer/base_centralizer.html" %}
 {% block title %}
 {# Overrides parent block #}
-{{  block.super }} - List of Companies
+{{  block.super }} - List of Companies - {{ tag.tagname|title }}
 {% endblock %}
+{% block content %}
 <h2>Company List</h2>
 <ul>
     {% for comp in company_list %}
@@ -15,3 +16,4 @@
     </li>
     {% endfor %}
 </ul>
+{% endblock %}
