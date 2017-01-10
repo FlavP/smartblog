@@ -13,16 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
-from centralizer.views import home, tagdetails
+from centralizer import urls as central_urls
+from blog import urls as blurls
+from .views import redir
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^$', home),
-    #Acest artificiu este facut pentru a denumi un grup (un segment al expresiei regulate)
-    #pentru a-l trimite functiei tagdetails ca parametru
-    #daca url-ul nostru este http://127.0.0.1:8000/tag/django, noi apelam tagdetails(request, slug='django')
-    #also a good idea is to name your url
-    url(r'^tag/(?P<slug>[\w\-]+)/$', tagdetails, name='centralizer_tagdetails'),
+    url(r'^admin/', include(admin.site.urls)),
+    #nu mai pui $ la sfarsit, atentie atentie atentie!!!
+    url(r'^', include(central_urls)),
+    url(r'^blog/', include(blurls)),
+    url(r'^$', redir)
 ]

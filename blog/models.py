@@ -15,7 +15,7 @@ class Article(models.Model):
     art_slug = models.SlugField(
                                 max_length=63,
                                 help_text="Label for URL composition",
-                                unique_for_month='pub_date',
+                                unique_for_month='added',
                                 )
     content = models.TextField()
     added = models.DateField('date when the article was added', auto_now_add=True)
