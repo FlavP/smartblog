@@ -1,5 +1,7 @@
-from django.shortcuts import redirect
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 
 
 def redir(request):
-    return redirect('blog_article_list')
+    path = reverse('blog_article_list')
+    return HttpResponseRedirect(path)
