@@ -19,7 +19,7 @@
 
     <dt>Tag{{ company.tags.count|pluralize }}</dt>
     {% for tag in company.tags.all %}
-    <dd><a href="">{{ tag.tagname|title }}</a> </dd>
+    <dd><a href="{{ tag.get_absolute_url }}">{{ tag.tagname|title }}</a> </dd>
     {% endfor %}
 </dl>
 
