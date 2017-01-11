@@ -1,5 +1,6 @@
 from django.db import models
 from centralizer.models import Tag, Company
+from django.core.urlresolvers import reverse
 import datetime
 # Create your models here.
 
@@ -32,3 +33,10 @@ class Article(models.Model):
         verbose_name = "blog article"
         ordering = ["-added", "title"]
         get_latest_by = 'added'
+
+    def get_absolute_url(self):
+        return reverse("blog_article_list",
+                       kwargs={
+                                "year": self.added.year,
+                                "month": self.added.month,
+                                "slug":self.art_slug})

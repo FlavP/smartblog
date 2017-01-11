@@ -1,5 +1,6 @@
 from django.db import models
 import datetime
+from django.core.urlresolvers import reverse
 
 # Create your models here.
 class Tag(models.Model):
@@ -18,6 +19,9 @@ class Tag(models.Model):
 
     class Meta:
         ordering = ['tagname']
+
+    def get_absolute_url(self):
+        return reverse('centralizer_tagdetails', kwargs={"slug":self.tag_slug})
 
 class Company(models.Model):
     companyid = models.AutoField(
@@ -43,6 +47,9 @@ class Company(models.Model):
     class Meta:
         ordering = ['company_name']
         get_latest_by = 'founded_date'
+
+    def get_absolute_url(self):
+        return reverse('centralizer_company_details', kwargs={"slug":self.company_slug})
 
 class RelatedNews(models.Model):
     title = models.CharField(max_length=63)

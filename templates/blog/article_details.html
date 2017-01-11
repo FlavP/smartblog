@@ -3,6 +3,7 @@
 {# Overrides parent block #}
 {{  block.super }} - Article Details
 {% endblock %}
+{% block content %}
 <article>
     <header>
         <h2>{{ article.title|title }}</h2>
@@ -19,7 +20,7 @@
         <ul>
             {% for comp in article.companies.all %}
             <li>
-                <a href="">
+                <a href="{{ comp.get_absolute_url }}">
                     {{ comp.company_name|title }}
                 </a>
             </li>
@@ -45,3 +46,4 @@
     </footer>
     {% endif %}
 </article>
+{% endblock %}

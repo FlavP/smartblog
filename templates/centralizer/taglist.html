@@ -10,7 +10,7 @@
 <ul>
     {% for tag in taglist %}
     <li>
-        <a href="">
+        <a href="{{ tag.get_absolute_url }}">
             {{ tag.tagname|title }}
         </a>
     </li>

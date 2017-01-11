@@ -8,8 +8,8 @@
 <ul>
     {% for comp in company_list %}
     <li>
-        <a href="">
-            {{ company.company_name }}
+        <a href="{{ comp.get_absolute_url }}">
+            {{ comp.company_name }}
         </a>
         {% empty %}
         <li><em>No companies here</em></li>

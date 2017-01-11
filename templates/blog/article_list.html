@@ -7,7 +7,9 @@
     <article>
     <header>
         <h2>
-            <a href="">{{ art.title|title }}</a>
+            <a href="{{ art.get_absolute_url }}">
+                {{ art.title|title }}
+            </a>
         </h2>
         <p>
     Written on:
