@@ -2,6 +2,9 @@ from django import forms
 from .models import Tag, Company, RelatedNews
 from django.core.exceptions import ValidationError
 
+#importam modelele si le traducem in obiecte-formular echivalente
+# in Meta definim ce model si ce campuri ale acelui model sunt folosite de un anume formular
+
 class SlugMixin():
 #A class mixin for the clean_slug for tag and company method
     def clean_slug(self):
