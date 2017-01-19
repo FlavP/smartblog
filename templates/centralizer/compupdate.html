@@ -1,0 +1,18 @@
+{% extends parent_template|default:"centralizer/base_centralizer.html" %}
+{% block title %}
+{{ block.super }} - Update Company
+{% endblock %}
+
+{% block content %}
+    <div>
+    <div>
+        <form action="{{ company.upcomp }}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">
+                Update the Company
+            </button>
+        </form>
+    </div>
+    </div>
+{% endblock %}

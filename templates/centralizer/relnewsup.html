@@ -1,0 +1,18 @@
+{% extends parent_template|default:"centralizer/base_centralizer.html" %}
+{% block title %}
+{{ block.super }} - Update Related News
+{% endblock %}
+
+{% block content %}
+    <div>
+    <div>
+        <form action="{{ relnews.upnews }}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">
+                Update Related
+            </button>
+        </form>
+    </div>
+    </div>
+{% endblock %}

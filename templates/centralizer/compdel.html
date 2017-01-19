@@ -1,0 +1,18 @@
+{% extends parent_template|default: "centralizer/base_centralizer.html"%}
+{% block title %}
+{{ block.super }} - Delete The Tag
+{% endblock %}
+{% block content %}
+    <div>
+    <div>
+        <form action="{{ company.delcompany }}" method="post">
+            {% csrf_token %}
+            <p>
+                Really Delete {{ tag.tagname }}?
+            </p>
+            <a href="{{ tag.get_absolute_url }}">Cancel</a>
+        <button type="submit">Delete</button>
+        </form>
+    </div>
+    </div>
+{% endblock %}

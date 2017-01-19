@@ -1,0 +1,17 @@
+{% extends parent_template|default:"centralizer/base_centralizer.html" %}
+{% block title %}
+{{ block.super }} - Create Related News Reference
+{% endblock %}
+{% block content %}
+    <div>
+    <div>
+    <form action="{% url 'centralizer_create_relnews' %}" method="post">
+    {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">
+            Create News
+        </button>
+    </form>
+    </div>
+    </div>
+{% endblock %}

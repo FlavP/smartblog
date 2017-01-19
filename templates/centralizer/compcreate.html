@@ -1,18 +1,16 @@
 {% extends parent_template|default:"centralizer/base_centralizer.html" %}
-
 {% block title %}
-{{ block.super }} - New Tag
+{{ block.super }} - Create Company
 {% endblock %}
-
 {% block content %}
     <div>
     <div>
-    <form action="url {% url 'centralizer_createtag' %}" method="post">
+    <form action="{% url 'centralizer_create_company' %}" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">
-        Create the Tag
-    </button>
+        {{ form.as_p }}
+        <button type="submit">
+            Create Company
+        </button>
     </form>
     </div>
     </div>
