@@ -1,16 +1,16 @@
 {% extends parent_template|default: "centralizer/base_centralizer.html"%}
 {% block title %}
-{{ block.super }} - Delete The Company
+{{ block.super }} - Delete Related News
 {% endblock %}
 {% block content %}
     <div>
     <div>
-        <form action="{{ company.delcompany }}" method="post">
+        <form action="{{ related.delrel }}" method="post">
             {% csrf_token %}
             <p>
-                Really Delete {{ tag.tagname }}?
+                Really Delete {{ related.title }}?
             </p>
-            <a href="{{ company.get_absolute_url }}">Cancel</a>
+            <a href="{{ related.get_absolute_url }}">Cancel</a>
         <button type="submit">Delete</button>
         </form>
     </div>

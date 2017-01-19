@@ -1,0 +1,18 @@
+{% extends parent_template|default: "blog/base_blog.html"%}
+{% block title %}
+{{ block.super }} - Delete The Article
+{% endblock %}
+{% block content %}
+    <div>
+    <div>
+        <form action="{{ article.delart }}" method="post">
+            {% csrf_token %}
+            <p>
+                Really Delete {{ article.title }}?
+            </p>
+            <a href="{{ article.get_absolute_url }}">Cancel</a>
+        <button type="submit">Delete</button>
+        </form>
+    </div>
+    </div>
+{% endblock %}
