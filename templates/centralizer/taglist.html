@@ -7,6 +7,9 @@
 {% block content %}
 <h1>One</h1>
 <h2>List of Tags</h2>
+<div>
+<a href="{% url 'centralizer_create_tag' %}">
+</div>
 <ul>
     {% for tag in taglist %}
     <li>
