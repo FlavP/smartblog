@@ -61,7 +61,7 @@ class CreateTag(View):
 
 class CreateCompany(View):
     theformclass = CompanyForms
-    template = 'centralizer/compcreate'
+    template = 'centralizer/compcreate.html'
 
     def get(self, request):
         return render(request, self.template, {'form': self.theformclass})
@@ -73,3 +73,20 @@ class CreateCompany(View):
             return redirect(new_company)
         else:
             return render(request, self.template, {'form': self.theformclass})
+
+class CreateNews(View):
+    theformclass = NewsForm
+    template = 'centralizer/relnewscreate.html'
+
+    def get(self, request):
+        return render(request, self.template, {"form": self.template})
+
+    def post(self, request):
+        new_news = request.POST
+        if new_news.is_valid():
+            new_news.save()
+            #News nu are get_absolute_url in model, dar folosim metoda din company pentru redirect,
+            #  old code: redirect(new_news).company
+            return redirect(new_news)
+        else:
+            return render(request, self.template, {"form": self.template})

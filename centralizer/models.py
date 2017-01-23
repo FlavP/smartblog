@@ -58,6 +58,9 @@ class RelatedNews(models.Model):
     newslink = models.URLField(max_length=255)
     company = models.ForeignKey(Company)
 
+    def get_absolute_url(self):
+        return self.company.get_absolute_url()
+
     def __str__(self):
         #self.company calls the str (string) method of the company object
         return "{}:{}",format(self.company, self.title)

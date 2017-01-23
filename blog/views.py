@@ -20,7 +20,7 @@ class ArticleList(View):
 
 class CreateArticle(View):
     theformclass = ArticleForm
-    template = "blog/artcreate"
+    template = "blog/artcreate.html"
 
     def get(self, request):
         return render(request, self.template, {'theform': self.theformclass})
