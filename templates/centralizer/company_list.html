@@ -5,6 +5,9 @@
 {% endblock %}
 {% block content %}
 <h2>Company List</h2>
+    <div>
+    <a href="{% url 'centralizer_create_company' %}">Create a new company</a>
+    </div>
 <ul>
     {% for comp in company_list %}
     <li>

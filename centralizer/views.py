@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.http.response import HttpResponse, Http404
 from django.template import Context, loader
 from django.shortcuts import get_object_or_404, render, redirect
-from .forms import TagForms
+from .forms import TagForms, CompanyForms, NewsForm
+from django.views.generic import View
 # Create your views here.
 #we are already in centralizer, so we don't need call centralizer.models
 from .models import Tag, Company
@@ -44,7 +45,31 @@ def create_tag(request):
             #show unbound HTML form
             
 class CreateTag(View):
-    theform = TagForms
+    theformclass = TagForms
     template = 'centralizer/tagform.html'
+
+    def get(self, request):
+        return render(request, self.template, {'form': self.theformclass})
     
-        
+    def post(self, request):
+        bounded_form = self.theformclass(request.POST)
+        if bounded_form.is_valid():
+            the_new_tag = bounded_form.save()
+            return redirect(the_new_tag)
+        else:
+            return render(request, self.template, {'form': bounded_form})
+
+class CreateCompany(View):
+    theformclass = CompanyForms
+    template = 'centralizer/compcreate'
+
+    def get(self, request):
+        return render(request, self.template, {'form': self.theformclass})
+
+    def post(self, request):
+        new_company = request.POST
+        if new_company.is_valid:
+            new_company.save()
+            return redirect(new_company)
+        else:
+            return render(request, self.template, {'form': self.theformclass})

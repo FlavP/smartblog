@@ -3,6 +3,9 @@
 {# Overrides parent block #}
 {{  block.super }} - Article List
 {% endblock %}
+    <div>
+    <a href="{% url 'blog_article_create' %}'">Write a new article</a>
+    </div>
 {% for art in article_list %}
     <article>
     <header>
