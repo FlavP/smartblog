@@ -4,6 +4,7 @@ from django.template import Context, loader
 from django.shortcuts import get_object_or_404, render, redirect
 from .forms import TagForms, CompanyForms, NewsForm
 from django.views.generic import View
+from .utils import ViewObjectsMixin
 # Create your views here.
 #we are already in centralizer, so we don't need call centralizer.models
 from .models import Tag, Company
@@ -44,10 +45,11 @@ def create_tag(request):
             # request.method != 'POST'
             #show unbound HTML form
             
-class CreateTag(View):
+class CreateTag(ViewObjectsMixin, View):
     theformclass = TagForms
     template = 'centralizer/tagform.html'
-
+'''
+The old way, without refactoring. Now we import the Object Mixin with the view and use it's methods with the form class and template defined
     def get(self, request):
         return render(request, self.template, {'form': self.theformclass})
     
@@ -58,11 +60,11 @@ class CreateTag(View):
             return redirect(the_new_tag)
         else:
             return render(request, self.template, {'form': bounded_form})
-
-class CreateCompany(View):
+'''
+class CreateCompany(ViewObjectsMixin, View):
     theformclass = CompanyForms
     template = 'centralizer/compcreate.html'
-
+'''
     def get(self, request):
         return render(request, self.template, {'form': self.theformclass})
 
@@ -73,11 +75,12 @@ class CreateCompany(View):
             return redirect(new_company)
         else:
             return render(request, self.template, {'form': self.theformclass})
-
-class CreateNews(View):
+'''
+    
+class CreateNews(ViewObjectsMixin, View):
     theformclass = NewsForm
     template = 'centralizer/relnewscreate.html'
-
+'''
     def get(self, request):
         return render(request, self.template, {"form": self.template})
 
@@ -90,3 +93,5 @@ class CreateNews(View):
             return redirect(new_news)
         else:
             return render(request, self.template, {"form": self.template})
+            '''
+    

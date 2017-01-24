@@ -32,3 +32,37 @@ class CreateArticle(View):
             return redirect(new_article)
         else:
             return render(request, self.template, {'theform': self.theformclass})
+        
+class UpdateArticle(View):
+    theformclass = ArticleForm
+    template = "blog/artupdate.html"
+    model = Article
+    
+    def take_object(self, year, month, art_slug):
+        return get_object_or_404(
+            model = self.model,
+            added__year=year,
+            added__month=month,
+            art_slug=art_slug) 
+    
+    def get(self, request, year, month, art_slug):
+        article = self.take_object(year, month, art_slug)
+        #ne mai trebuie un context in care sa plasam obiectul-articol  de mai sus, gaist sau nu in baza de date
+        #in context avem obiectul formulat pe care il instantiem cu obiectul-articol pe care vrem sa-l modificam
+        context = {"theform": self.theformclass(instance=article),
+                   "article": article}
+        return render(request, self.template, context)
+    
+    def post(self, request, year, month, art_slug):
+        article = self.take_object(year, month, art_slug)
+        bounded_form = self.theformclass(request.POST, instance=article)
+        if bounded_form.is_valid():
+            new_article = bounded_form.save()
+            return redirect(new_article)
+        else:
+            context = {"theform": self.theformclass(instance=article),
+                       "article": article}
+            return render(request, self.template, context)
+        
+       
+        
