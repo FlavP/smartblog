@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from blog.views import ArticleList
 from .views import taglist, tagdetails, \
-    companies, company_details, create_tag, CreateTag, CreateCompany, CreateNews
+    companies, company_details, create_tag, CreateTag, CreateCompany, CreateNews, UpdateNews
 
 urlpatterns = [
     url(r'^tag/$', taglist, name="centralizer_taglist"),
@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^tag/(?P<slug>[\w\-]+)/$', tagdetails, name='centralizer_tagdetails'),
     url(r'^companies/$', companies, name='centralizer_company_list'),
     url(r'^news/create/$', CreateNews.as_view(), name='centralizer_create_related'),
-    url(r'^companies/create/$', CreateCompany.as_view, name='centralizer_create_company'),
+    url(r'^news/update/$', UpdateNews.as_view(), name='centralizer_update_related'),
+    url(r'^companies/create/$', CreateCompany.as_view(), name='centralizer_create_company'),
     url(r'companies/(?P<slug>[\w\-]+)/$', company_details, name="centralizer_company_details"),
 ]

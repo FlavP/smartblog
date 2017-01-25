@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.http.response import HttpResponse, Http404
 from django.template import Context, loader
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, render, redirect, reverse
 from .forms import TagForms, CompanyForms, NewsForm
 from django.views.generic import View
 from .utils import ViewObjectsMixin
+from .models import RelatedNews
 # Create your views here.
 #we are already in centralizer, so we don't need call centralizer.models
 from .models import Tag, Company
@@ -94,4 +95,30 @@ class CreateNews(ViewObjectsMixin, View):
         else:
             return render(request, self.template, {"form": self.template})
             '''
-    
+class UpdateNews(View):
+    theformclass = NewsForm
+    template = "centralizer/relnewsup.html"
+
+    def get_update_url(self):
+        return reverse("centralizer_update_related", kwargs={'pk': self.pk})
+
+    def get(self, request, pk):
+        relnews = get_object_or_404(RelatedNews, pk=pk)
+        context = {
+            "theform": self.theformclass(instance=relnews),
+            "relatednews": relnews
+                   }
+        return render(request, self.template, context)
+
+    def post(self, request, pk):
+        relnews = get_object_or_404(RelatedNews, pk=pk)
+        is_valid_form = self.theformclass(request.POST, instance=relnews)
+        if is_valid_form.is_valid():
+            newnews = is_valid_form.save()
+            return redirect(newnews)
+        else:
+            context = {
+                "theform": self.theformclass,
+                "relatednews": relnews
+            }
+            return render(request, self.template, context)

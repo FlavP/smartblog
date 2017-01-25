@@ -15,6 +15,13 @@
     {% if article.companies.all or article.tags.all %}
 
     {% if article.companies.all %}
+        <ul>
+        <li>
+            <a href="{{ article.get_update_url }}">
+                Edit Article
+            </a>
+        </li>
+        </ul>
     <section>
         <h3>Compan{{ article.companies.count|pluralize:"y,ies" }}</h3>
         <ul>

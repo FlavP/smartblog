@@ -50,7 +50,7 @@ class Company(models.Model):
 
     #aici ai nevoie de name-ul din urls pentru fiecare url, ca sa faci reverse url cu slug-ul, pentru crea link-uri intre pagini
     def get_absolute_url(self):
-        return reverse('centralizer_company_details', kwargs={"slug":self.company_slug})
+        return reverse('centralizer_company_details', kwargs={"slug": self.company_slug})
 
 class RelatedNews(models.Model):
     title = models.CharField(max_length=63)
