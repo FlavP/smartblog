@@ -37,4 +37,7 @@
 {% if not tag.companies.all and not tag.articles.all %}
     <p>This tag has no content associated to it</p>
 {% endif %}
+<ul><li>
+<a href="{{tag.get_update_url}}">Edit Tag</a>
+</li></ul>
 {% endblock %}

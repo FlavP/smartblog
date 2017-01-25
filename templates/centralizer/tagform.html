@@ -7,9 +7,9 @@
 {% block content %}
     <div>
     <div>
-    <form action="url {% url 'centralizer_createtag' %}" method="post">
+    <form action="{% url 'centralizer_create_tag' %}" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ theform.as_p }}
     <button type="submit">
         Create the Tag
     </button>

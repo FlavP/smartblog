@@ -1,4 +1,4 @@
-from django import forms
+from django.forms import ModelForm
 from .models import Tag, Company, RelatedNews
 from django.core.exceptions import ValidationError
 
@@ -13,8 +13,8 @@ class SlugMixin():
             raise ValidationError("You can't give the slug the name 'create' !")
         return slug
 
-class TagForms(forms.ModelForm, SlugMixin):
-    def Meta(self):
+class TagForms(ModelForm, SlugMixin):
+    class Meta:
         model = Tag
         fields = "__all__"
 
@@ -23,8 +23,8 @@ class TagForms(forms.ModelForm, SlugMixin):
 
 
 
-class CompanyForms(forms.ModelForm, SlugMixin):
-    def Meta(self):
+class CompanyForms(ModelForm, SlugMixin):
+    class Meta:
         model = Company
         fields = '__all__'
 
@@ -32,8 +32,8 @@ class CompanyForms(forms.ModelForm, SlugMixin):
         return self.cleaned_data['company_name'].lower()
 
 
-class NewsForm(forms.ModelForm):
-    def Meta(self):
+class NewsForm(ModelForm):
+    class Meta:
         model = RelatedNews
         fields = '__all__'
 

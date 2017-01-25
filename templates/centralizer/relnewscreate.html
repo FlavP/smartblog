@@ -7,7 +7,7 @@
     <div>
     <form action="{% url 'centralizer_create_relnews' %}" method="post">
     {% csrf_token %}
-        {{ form.as_p }}
+        {{ theform.as_p }}
         <button type="submit">
             Create News
         </button>

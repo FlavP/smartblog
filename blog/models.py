@@ -34,7 +34,14 @@ class Article(models.Model):
                        kwargs={
                            'year': self.added.year,
                            'month': self.added.month,
-                           'slug': self.added.art_slug})
+                           'slug': self.art_slug})
+    
+    def get_delete_url(self):
+        return reverse('blog_article_delete',
+                       kwargs={
+                           'year': self.added.year,
+                           'month': self.added.month,
+                           'slug': self.art_slug})
 
     class Meta:
         verbose_name = "blog article"

@@ -22,6 +22,9 @@ class Tag(models.Model):
 
     def get_absolute_url(self):
         return reverse('centralizer_tagdetails', kwargs={"slug":self.tag_slug})
+    
+    def get_update_url(self):
+        return reverse('centralizer_update_tag', kwargs={"slug":self.tag_slug})
 
 class Company(models.Model):
     companyid = models.AutoField(
@@ -51,6 +54,9 @@ class Company(models.Model):
     #aici ai nevoie de name-ul din urls pentru fiecare url, ca sa faci reverse url cu slug-ul, pentru crea link-uri intre pagini
     def get_absolute_url(self):
         return reverse('centralizer_company_details', kwargs={"slug": self.company_slug})
+    
+    def get_update_url(self):
+        return reverse('centralizer_company_update', kwargs={"slug": self.company_slug})
 
 class RelatedNews(models.Model):
     title = models.CharField(max_length=63)
