@@ -4,7 +4,7 @@ from django.template import Context, loader
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from .forms import TagForms, CompanyForms, NewsForm
 from django.views.generic import View
-from .utils import ViewObjectsMixin, UpdateObjectMixin, DeleteObjectMixin
+from .utils import ViewObjectsMixin, UpdateObjectsMixin, DeleteObjectMixin
 from .models import RelatedNews
 # Create your views here.
 #we are already in centralizer, so we don't need call centralizer.models
@@ -141,7 +141,7 @@ class UpdateTag(UpdateObjectsMixin, View):
     model = Tag
     template = 'centralizer/tagupdate.html'
     
-class UpdateCompany(UpdateObjectMixin, View):
+class UpdateCompany(UpdateObjectsMixin, View):
     theformclass = CompanyForms
     model = Company
     template = 'centralizer/compupdate.html'
