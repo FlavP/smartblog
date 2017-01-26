@@ -34,8 +34,13 @@
             <a href="news.get_absolute_url">
                 {{ news.tile|title }}
             </a>
-        {% endfor %}
         </li>
+        <li>
+	    <a href="news.get_delete_url">
+	      Delete News
+	    </a>
+	</li>
+        {% endfor %}        
     </ul>
 <ul>
     <li>

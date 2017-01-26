@@ -63,6 +63,15 @@ class UpdateArticle(View):
             context = {"theform": self.theformclass(instance=article),
                        "article": article}
             return render(request, self.template, context)
-        
+
+class DeleteArticle(View):
+    def get(self, request, year, month, slug):
+        article = get_object_or_404(Article, added__year = year, added__month = month, art_slug = slug)
+        return render(request, 'blog/artdel.html', {'article' : article})
+    
+    def post(self, request, year, month, slug):
+        article = get_object_or_404(Article, added__year = year, added_month = month, art_slug = slug)
+        article.delete()
+        return redirect('blog_article_list')          
        
         

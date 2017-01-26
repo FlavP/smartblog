@@ -21,6 +21,11 @@
                 Edit Article
             </a>
         </li>
+        <li>
+	    <a href="{{article.get_delete_url}}">
+		Delete Article
+	    </a>
+	</li>
         </ul>
     <section>
         <h3>Compan{{ article.companies.count|pluralize:"y,ies" }}</h3>

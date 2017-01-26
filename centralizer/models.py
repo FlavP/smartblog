@@ -25,6 +25,9 @@ class Tag(models.Model):
     
     def get_update_url(self):
         return reverse('centralizer_update_tag', kwargs={"slug":self.tag_slug})
+    
+    def get_delete_url(self):
+        return reverse('centralizer_delete_tag', kwargs={"slug":self.tag_slug})
 
 class Company(models.Model):
     companyid = models.AutoField(
@@ -57,6 +60,9 @@ class Company(models.Model):
     
     def get_update_url(self):
         return reverse('centralizer_company_update', kwargs={"slug": self.company_slug})
+    
+    def get_delete_url(self):
+        return reverse("centralizer_company_delete", kwargs={"slug": self.company_slug})
 
 class RelatedNews(models.Model):
     title = models.CharField(max_length=63)
@@ -66,6 +72,9 @@ class RelatedNews(models.Model):
 
     def get_absolute_url(self):
         return self.company.get_absolute_url()
+    
+    def get_delete_url(self):
+        return reverse('centralizer_delete_news', kwargs={'pk': self.pk})
 
     def __str__(self):
         #self.company calls the str (string) method of the company object

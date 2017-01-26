@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponseRedirect
 
 class ViewObjectsMixin:
     theformclass = None
@@ -40,3 +41,20 @@ class UpdateObjectsMixin:
                 self.model.__name__.lower: new_obj
             }
             return render(request, self.template, context)
+
+class DeleteObjectMixin:
+    model = None
+    template = ""
+    success = ""
+    
+    def get(self, request, slug):
+        new_obj = get_object_or_404(self.model, slug__iexact = slug)
+        context = {self.model__name__.lower(): new_obj}
+        return render(request, self.template, context)
+    
+    def post(self, request, slug):
+        new_obj = get_object_or_404(self.model, slug__iexact = slug)
+        #nu avem nevoie de redirect, pentru ca stim url-ul
+        new_obj.delete()
+        return HttpResponseRedirect(self.success)
+        

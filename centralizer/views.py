@@ -4,11 +4,12 @@ from django.template import Context, loader
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from .forms import TagForms, CompanyForms, NewsForm
 from django.views.generic import View
-from .utils import ViewObjectsMixin, UpdateObjectMixin
+from .utils import ViewObjectsMixin, UpdateObjectMixin, DeleteObjectMixin
 from .models import RelatedNews
 # Create your views here.
 #we are already in centralizer, so we don't need call centralizer.models
 from .models import Tag, Company
+from django.urls.base import reverse_lazy
 
 def taglist(request):
     return render(request, "centralizer/taglist.html",
@@ -122,6 +123,18 @@ class UpdateNews(View):
                 "relatednews": relnews
             }
             return render(request, self.template, context)
+
+class DeleteNews(View):
+    def get(self, request, pk):
+        delnews = get_object_or_404(RelatedNews, pk = pk)
+        return render(request, 'centralizer/relnewsdel.html', {'news': delnews})
+    
+    def post(self, request, pk):
+        delnews = get_object_or_404(RelatedNews, pk = pk)
+        company = delnews.company
+        delnews.delete()
+        return redirect(company)
+        return reverse()
         
 class UpdateTag(UpdateObjectsMixin, View):
     theformclass = TagForms
@@ -133,4 +146,13 @@ class UpdateCompany(UpdateObjectMixin, View):
     model = Company
     template = 'centralizer/compupdate.html'
     
+class DeleteTag(DeleteObjectMixin, View):
+    model = Tag
+    success = reverse_lazy('centralizer_taglist')
+    template = "centralizer/deltag.html"
+    
+class DeleteCompany(DeleteObjectMixin, View):
+    model = Company
+    success = reverse_lazy('centralizer_company_list')
+    template = "centralizer/compdel.html"
     
