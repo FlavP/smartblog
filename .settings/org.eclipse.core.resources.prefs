@@ -1,0 +1,9 @@
+eclipse.preferences.version=1
+encoding//blog/migrations/0001_initial.py=utf-8
+encoding//blog/migrations/0002_article_data.py=utf-8
+encoding//blog/migrations/0003_articles_data.py=utf-8
+encoding//centralizer/migrations/0001_initial.py=utf-8
+encoding//centralizer/migrations/0002_new.py=utf-8
+encoding//centralizer/migrations/0003_tag_data.py=utf-8
+encoding//centralizer/migrations/0004_companies_data.py=utf-8
+encoding//centralizer/migrations/0005_related_data.py=utf-8
