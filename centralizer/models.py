@@ -69,7 +69,7 @@ class RelatedNews(models.Model):
     pub_date = models.DateField('date published')
     newslink = models.URLField(max_length=255)
     company = models.ForeignKey(Company, related_name='related_news', )
-    news_slug = models.SlugField(max_length=63)
+    news_slug = models.SlugField(max_length=63, blank=True)
 
     def get_absolute_url(self):
         return self.company.get_absolute_url()
