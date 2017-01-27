@@ -36,10 +36,10 @@ def add_company(apps, schema_editor):
                 new_company.tags.add(argf)
 
 def remove_company(apps, schema_editor):
-    Company = apps.get_model(
+    Company = apps.get_model( 
         "centralizer", "Company"
-    )
-    for comp in COMPANIES:
+    ) 
+    for comp in COMPANIES:  
         delcomp = Company.objects.get(
             company_slug = comp['slug']
         )

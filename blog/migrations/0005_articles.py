@@ -37,7 +37,7 @@ def add_article(apps, schema_editor):
                 argtz = Tag.objects.get(tag_slug=tag)
             except ObjectDoesNotExist:
                 argtz = None
-            if argtz:
+            if argtz:  
                 new_article.tags.add(argtz)
 
 def remove_article(apps, schema_editor):
