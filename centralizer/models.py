@@ -45,7 +45,7 @@ class Company(models.Model):
     added = models.DateField(auto_now_add=True)
     # It is entirely up to you where you define the many to many relationship, related_type --> the name
     # to refer from the other table to this one, like t.companies (t short for tags) or c.tags (c short for company)
-    tags = models.ManyToManyField(Tag, related_name='companies')
+    tags = models.ManyToManyField(Tag, related_name='companies', blank=True)
 
     def __str__(self):
         return self.company_name
@@ -68,7 +68,8 @@ class RelatedNews(models.Model):
     title = models.CharField(max_length=63)
     pub_date = models.DateField('date published')
     newslink = models.URLField(max_length=255)
-    company = models.ForeignKey(Company)
+    company = models.ForeignKey(Company, related_name='related_news', )
+    news_slug = models.SlugField(max_length=63)
 
     def get_absolute_url(self):
         return self.company.get_absolute_url()
@@ -82,6 +83,7 @@ class RelatedNews(models.Model):
 
     class Meta:
         #verbose = change the display string of a class
+        unique_together = ('news_slug', 'company')
         verbose_name = "related news"
         ordering = ['-pub_date']
         get_latest_by = 'pub_date'

@@ -20,8 +20,8 @@ class Article(models.Model):
                                 )
     content = models.TextField()
     added = models.DateField('date when the article was added', auto_now_add=True)
-    tags = models.ManyToManyField(Tag, related_name='articles')
-    companies = models.ManyToManyField(Company, related_name='articles')
+    tags = models.ManyToManyField(Tag, related_name='articles', blank=True)
+    companies = models.ManyToManyField(Company, related_name='articles', blank=True)
 
     def __str__(self):
         return "{} on {}".format(

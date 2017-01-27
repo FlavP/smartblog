@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 from datetime import date
 from django.db import migrations
+from django.core.exceptions import ObjectDoesNotExist
 
 COMPANIES = [{
     "company_name": "Robotul Rozaliu",
