@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Company',
             fields=[
-                ('companyid', models.AutoField(primary_key=True, serialize=False)),
+                ('companyid', models.AutoField(primary_key=True, serialize=True)),
                 ('company_name', models.CharField(max_length=31)),
                 ('company_slug', models.SlugField(help_text='Label for URL composition', max_length=31, unique=True)),
                 ('description', models.TextField()),
