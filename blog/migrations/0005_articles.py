@@ -3,28 +3,42 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
+from django.core.exceptions import ObjectDoesNotExist
 
-ARTICLES = {
+ARTICLES = [{
     "title": "New Tech",
     "art_slug": "new-tech",
     "content": "It is coming folks",
     "tags": ["mobile", "django", "machine-learning"],
     "companies": "robotul-rozaliu"
-}
+}]
 
 def add_article(apps, schema_editor):
     Article = apps.get_model(
         'blog', 'Article'
     )
+    Company = apps.get_model(
+        'centralizer', 'Company'
+        )
+    Tag = apps.get_model(
+        'centralizer', 'Tag'
+        )
     for art in ARTICLES:
-        Article.objects.create(
+        new_article = Article.objects.create(
             title=art['title'],
             art_slug=art['art_slug'],
             content=art['content']
         )
-        art.companies.add(Article.objects.get(company_slug=art['companies']))
+        argp = Company.objects.get(company_slug=art['companies'])
+        if argp:
+            new_article.companies.add(argp)
         for tag in art['tags']:
-            art.tags.add(Article.objects.get(tag_slug=tag))
+            try:
+                argtz = Tag.objects.get(tag_slug=tag)
+            except ObjectDoesNotExist:
+                argtz = None
+            if argtz:
+                new_article.tags.add(argtz)
 
 def remove_article(apps, schema_editor):
     Article = apps.get_model(

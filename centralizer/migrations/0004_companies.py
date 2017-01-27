@@ -27,9 +27,13 @@ def add_company(apps, schema_editor):
             description=comp['description'],
             founded_date=comp['founded_date'],
             website=comp['website'])
-        for tag in comp['tags']:
-            comp.tags.add(
-                Tag.objects.get(tag_slug=tag))
+        for tag in comp['tags']:            
+            try:
+                argf = Tag.objects.get(tag_slug=tag)
+            except ObjectDoesNotExist:
+                argf = None
+            if argf:
+                new_company.tags.add(argf)
 
 def remove_company(apps, schema_editor):
     Company = apps.get_model(
