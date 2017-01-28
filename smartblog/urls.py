@@ -15,14 +15,18 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from centralizer import urls as central_urls
+from centralizer.urls import (relatednews as rel_urls, company as co_urls, tag as tag_urls)
 from blog import urls as blurls
+from contact import urls as curls
 from .views import redir
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     #nu mai pui $ la sfarsit, atentie atentie atentie!!!
-    url(r'^', include(central_urls)),
+    url(r'^related/', include(rel_urls)),
+    url(r'^tag/', include(tag_urls)),
+    url(r'^company/', include(co_urls)),
     url(r'^blog/', include(blurls)),
+    url(r'^contact/', include(curls)),
     url(r'^$', redir)
 ]

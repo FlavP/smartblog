@@ -39,8 +39,29 @@
                 Tags
             </a>
         </li>
+        <li>
+        <a href="{% url 'contact' %}">Contact Us</a>
+        </li>
     </ul>
 </nav>
+
+{% if messages %}
+<div>
+<div>
+<ul>
+{% for mes in messages %}
+{% if mes.tags %}
+<li class="{{mes.tags}}">
+{%else%}
+<li>
+{%endif%}
+{{message}}</li>
+{%endfor%}
+</ul>
+</div>
+</div>
+
+{% endif %}
 
 </body>
 </html>

@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-from django.conf.global_settings import EMAIL_BACKEND
+from django.conf.global_settings import EMAIL_BACKEND, SERVER_EMAIL,\
+    DEFAULT_FROM_EMAIL, EMAIL_SUBJECT_PREFIX, MANAGERS
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -140,3 +141,10 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/1.10/topics/email
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SERVER_EMAIL = 'contact@localhost'
+DEFAULT_FROM_EMAIL = 'no-reply@localhost'
+EMAIL_SUBJECT_PREFIX = '[Company Centralizer]'
+MANAGERS = (
+    ('US', 'ourselves@localhost'),
+    )
+
