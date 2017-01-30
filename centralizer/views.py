@@ -23,6 +23,14 @@ def tagdetails(request, slug):
 def companies(request):
     return render(request, "centralizer/company_list.html", {"company_list": Company.objects.all()})
 
+class CompanyList(View):
+    template = "centralizer/company_list.html"
+    
+    def get(self, request):
+        companies = Company.objects.all()
+        context = {'companies' : companies}
+        return render(request, self.template, context)
+
 def company_details(request, slug):
     comp = get_object_or_404(Company, company_slug__iexact = slug)
     return render(request, "centralizer/company_det.html", {"company": comp})
