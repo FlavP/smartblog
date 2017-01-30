@@ -1,4 +1,7 @@
-from .views import CreateNews, UpdateNews, DeleteNews
+import sys
+sys.path.append("../")
+from django.conf.urls import url
+from ..views import CreateNews, UpdateNews, DeleteNews
 
 urlpatterns = [    
     url(r'^create/$', CreateNews.as_view(), name='centralizer_create_related'),

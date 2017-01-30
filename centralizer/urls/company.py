@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import companies, company_details, \
+from ..views import companies, company_details, \
 CreateCompany, DeleteCompany, UpdateCompany
     
 urlpatterns  = [    

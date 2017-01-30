@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import taglist, tagdetails, create_tag, CreateTag, DeleteTag, UpdateTag
+from ..views import taglist, tagdetails, create_tag, CreateTag, DeleteTag, UpdateTag
 
 urlpatterns = [
     url(r'^create/$', CreateTag.as_view(), name='centralizer_create_tag'),
