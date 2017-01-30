@@ -11,7 +11,7 @@
     <ul>
     {% if prev_page %}
     <li>
-        <a href="{{ prev+page }}">
+        <a href="{{ prev_page }}">
             Previous Tag
         </a>
     </li>
@@ -27,7 +27,7 @@
     {% endif %}
 
 <div>
-<a href="{% url 'centralizer_create_tag' %}">
+<a href="{% url 'centralizer_create_tag' %}">Create New Tag</a>
 </div>
 <ul>
     {% for tag in taglist %}
