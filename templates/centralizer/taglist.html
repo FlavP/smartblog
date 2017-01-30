@@ -7,6 +7,25 @@
 {% block content %}
 <h1>One</h1>
 <h2>List of Tags</h2>
+{% if has_pages %}
+    <ul>
+    {% if prev_page %}
+    <li>
+        <a href="{{ prev+page }}">
+            Previous Tag
+        </a>
+    </li>
+    {% endif %}
+    {% if next_page %}
+    <li>
+        <a href="{{ next_page }}">
+            Next Tag
+        </a>
+    </li>
+    {% endif %}
+    </ul>
+    {% endif %}
+
 <div>
 <a href="{% url 'centralizer_create_tag' %}">
 </div>

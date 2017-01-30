@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http.response import HttpResponse, Http404
 from django.template import Context, loader
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from .forms import TagForms, CompanyForms, NewsForm
 from django.views.generic import View
@@ -21,14 +22,64 @@ def tagdetails(request, slug):
                   {"tag": tag})
 
 def companies(request):
-    return render(request, "centralizer/company_list.html", {"company_list": Company.objects.all()})
+    return render(request, "centralizer/company_list.html", {"companies": Company.objects.all()})
+
+class TagList(View):
+    template = "centralizer/taglist.html"
+    def get(self, request):
+        tags = Tag.objects.all()
+        context = {"taglist": tags}
+        return render(request, self.template, context)
+
+class PagedTag(View):
+    tags_per_page = 4
+    template = "centralizer/taglis.html"
+    def get(self, request, page=None):
+        tags = Tag.objects.all()
+        pagus = Paginator(tags, self.tags_per_page)
+        try:
+            tagpage = pagus.page(page)
+        except PageNotAnInteger:
+            tagpage = pagus.page(1)
+        except EmptyPage:
+            tagpage = pagus.page(pagus.num_pages)
+        if tagpage.has_previous():
+            prev_page = reverse('centralizer_tag_page', args=(tagpage.previous_page_number()))
+        else:
+            prev_page = None
+        if tagpage.has_next():
+            next_page = reverse('centralizer_tag_page', args=(tagpage.next_page_number()))
+        else:
+            next_page = None
+        context = {"taglist": tags, "next_page": next_page, "prev_page": prev_page, "has_pages": tagpage.has_other_pages(),
+                   "pagus": pagus}
+        return render(request, self.template, context)
 
 class CompanyList(View):
+    pagini = 4
     template = "centralizer/company_list.html"
+    page_query = 'page'
     
     def get(self, request):
         companies = Company.objects.all()
-        context = {'companies' : companies}
+        page_no = request.GET.get(self.page_query)
+        pagin = Paginator(companies, self.pagini)
+        try:
+            page = pagin.page(page_no)
+        except PageNotAnInteger:
+            page = pagin.page(1)
+        except EmptyPage:
+            page = pagin.page(pagin.num_pages)
+        if page.has_previous():
+            previous_page = "?{prev}={n}".format(prev=self.page_query, n=page.previous_page_number())
+        else:
+            previous_page = None
+        if page.has_next():
+            next_page = "{next}={n}".format(next=self.page_query, n=page.next_page_number())
+        else:
+            next_page=None
+        context = {'companies' : page, 'paginator': pagin,
+                   "has_pages": pagin.has_other_pages(), "next_page": next_page, "previous_page": previous_page}
         return render(request, self.template, context)
 
 def company_details(request, slug):

@@ -8,8 +8,29 @@
     <div>
     <a href="{% url 'centralizer_create_company' %}">Create a new company</a>
     </div>
+
+   {% if has_pages %}
+    <ul>
+    {% if previous_page %}
+    <li>
+    <a href="{{ previous_page }}">Previous</a>
+    </li>
+{% endif%}
+
+{% if next_page %}
+    <li>
+    <a href="{{ next_page }}">Next</a>
+    </li>
+{% endif%}
+    </ul>
+    {% endif %}
 <ul>
-    {% for comp in company_list %}
+<li>
+    Page {{ companies.number }}
+    of {{ paginator.num_pages }}
+</li>
+
+    {% for comp in companies %}
     <li>
         <a href="{{ comp.get_absolute_url }}">
             {{ comp.company_name }}
