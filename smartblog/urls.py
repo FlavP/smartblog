@@ -30,5 +30,6 @@ urlpatterns = [
     #url(r'^page', include(flurl)),
     url(r'^blog/', include(blurls)),
     url(r'^contact/', include(curls)),
+    #nici aici nu pui $ la sfarsit, you have been warned
     url(r'^', include(flurl)),
 ]
