@@ -28,7 +28,7 @@ SECRET_KEY = ')&cxo&y_wg903gyc(t=sf=&wuew#a!-$949al&9s=7&hp*box$'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+SITE_ID = 1
 
 # Application definition
 
@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.flatpages',
+    #we are using sites in order to serve multiple websites using a shared codebas (a page for lawyers and a page for customers)
+    'django.contrib.sites',
     'centralizer',
     'blog',
     'contact',

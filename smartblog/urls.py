@@ -19,6 +19,7 @@ from centralizer.urls import (relatednews as rel_urls, company as co_urls, tag a
 from blog import urls as blurls
 from contact import urls as curls
 from .views import redir
+from django.contrib.flatpages import urls as flurl
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -26,6 +27,7 @@ urlpatterns = [
     url(r'^related/', include(rel_urls)),
     url(r'^tag/', include(tag_urls)),
     url(r'^company/', include(co_urls)),
+    url(r'^page', include(flurl)),
     url(r'^blog/', include(blurls)),
     url(r'^contact/', include(curls)),
     url(r'^$', redir)

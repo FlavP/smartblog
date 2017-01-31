@@ -1,0 +1,14 @@
+{% extends parent_template|default:"base.html" %}
+
+{% block title %}
+{{ block super }} - {{ flat.title }}
+{% endblock %}
+
+{% block content %}
+<div>
+<div>
+<h1>{{ flat.title }}</h1>
+{{ flat.content }}
+</div>
+</div>
+{% block %}
