@@ -7,6 +7,8 @@
     </title>
 </head>
 <body>
+{% load flatpages %}
+{% get_flatpages as flatpages %}
 <div>
     <header>
         <main>
@@ -24,6 +26,13 @@
 
 <nav>
     <ul>
+        {% for pg in flatpages %}
+            <li>
+            <a href="{{ pg.get_absolute_url }}">
+                {{ pg.title }}
+            </a>
+            </li>
+        {% endfor %}
         <li>
             <a href="{% url 'blog_article_list' %}">
                 Articles

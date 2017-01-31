@@ -27,8 +27,8 @@ urlpatterns = [
     url(r'^related/', include(rel_urls)),
     url(r'^tag/', include(tag_urls)),
     url(r'^company/', include(co_urls)),
-    url(r'^page', include(flurl)),
+    #url(r'^page', include(flurl)),
     url(r'^blog/', include(blurls)),
     url(r'^contact/', include(curls)),
-    url(r'^$', redir)
+    url(r'^', include(flurl)),
 ]
