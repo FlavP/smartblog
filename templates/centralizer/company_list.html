@@ -3,7 +3,7 @@
 {# Overrides parent block #}
 {{  block.super }} - List of Companies - {{ tag.tagname|title }}
 {% endblock %}
-{% block original %}
+{% block content %}
 <h2>Company List</h2>
     <div class="mobile">
     <a href="{% url 'centralizer_create_company' %}" class="button button-primary">Create a new company</a>
@@ -37,7 +37,6 @@
         </a>
         {% empty %}
         <li><em>No companies here</em></li>
-    </li>
     {% endfor %}
 </ul>
 <ul><li>

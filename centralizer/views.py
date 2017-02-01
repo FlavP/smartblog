@@ -79,7 +79,7 @@ class CompanyList(View):
         else:
             next_page=None
         context = {'companies' : page, 'paginator': pagin,
-                   "has_pages": pagin.has_other_pages(), "next_page": next_page, "previous_page": previous_page}
+                   "has_pages": page.has_other_pages(), "next_page": next_page, "previous_page": previous_page}
         return render(request, self.template, context)
 
 def company_details(request, slug):
