@@ -3,6 +3,7 @@
 {# Overrides parent block #}
 {{  block.super }} - Article List
 {% endblock %}
+{% block content %}
     <div>
     <a href="{% url 'blog_article_create' %}'">Write a new article</a>
     </div>
@@ -33,8 +34,8 @@
 	Delete Article
 	</a>
     </li>
-    </li>
     </ul>
     {% empty %}
     <p><em>No Articles Available for now</em></p>
 {% endfor %}
+{% endblock %}

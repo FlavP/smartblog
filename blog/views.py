@@ -15,8 +15,9 @@ class ArticleList(View):
 
     template = "blog/article_list.html"
     def get(self, request):
-        return render(request, self.template,
-                      {"article_list": Article.objects.all()})
+        articles = Article.objects.all()
+        context = {"article_list": articles}
+        return render(request, self.template, context)
 
 class CreateArticle(View):
     theformclass = ArticleForm

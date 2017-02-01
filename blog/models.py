@@ -5,6 +5,7 @@ import datetime
 # Create your models here.
 
 class Article(models.Model):
+
     articleid = models.AutoField(
         primary_key=True,
         serialize=False,
