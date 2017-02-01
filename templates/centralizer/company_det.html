@@ -31,12 +31,12 @@
     <ul>
         {% for news in company.relatednews_set.all %}
         <li>
-            <a href="news.get_absolute_url">
+            <a href="{{ news.get_absolute_url }}">
                 {{ news.tile|title }}
             </a>
         </li>
         <li>
-	    <a href="news.get_delete_url">
+	    <a href="{{ news.get_delete_url }}">
 	      Delete News
 	    </a>
 	</li>
@@ -60,7 +60,7 @@
     <ul>
         {% for art in company.articles.all %}
         <li>
-            <a href="art.get_absolute_url">
+            <a href="{{ art.get_absolute_url}}">
                 {{ art.title|title }}
             </a>
         </li>

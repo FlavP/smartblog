@@ -7,5 +7,5 @@ urlpatterns  = [
     url(r'^(?P<slug>[\w\-]+)/update/$', UpdateCompany.as_view(), name='centralizer_update_company'),
     url(r'^(?P<slug>[\w\-]+)/delete/$', DeleteCompany.as_view(), name='centralizer_delete_company'),
     url(r'^(?P<slug>[\w\-]+)/$', company_details, name="centralizer_company_details"),
-    url(r'^$', CompanyList.as_view(), name='centralizer_company_list')
+    url(r'^$', CompanyList.as_view(), name='centralizer_company_list'),
     ]

@@ -1,4 +1,4 @@
-{% load staticfiles %?
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,21 +6,26 @@
     <title>
             {% block title %}Companies{% endblock %}
     </title>
-    <link rel="stylesheet" type="text/css" href="{% static 'site/style.css' %}"/>
-<!--     {% block head %} -->
-<!--     {% endblock %} -->
+    <link rel="stylesheet" type="text/css" href="{% static 'site/normalize.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'site/skeleton.css' %}"/>
+<!--     {#  #} block head %} -->
+<!--     {#  #} endblock %} -->
 </head>
 <body>
 {% load flatpages %}
 {% get_flatpages as flatpages %}
-<div>
-    <header>
+<div class="container">
+    <header class="row">
+    <img src="{% static 'site/favicon.png' %}" alt="Favicon">
+    <div class="offste-by-one ten columns"
+    <h1 class="logo">Company Centralizer</h1>
         <main>
             {% block content %}
             This is the default content
             {% endblock %}
         </main>
     </header>
+</div>
 </div>
 <div>
     <p>
@@ -59,9 +64,9 @@
 </nav>
 
 {% if messages %}
-<div>
-<div>
-<ul>
+<div class="row">
+<div class="twelve columns">
+<ul class="messages">
 {% for mes in messages %}
 {% if mes.tags %}
 <li class="{{mes.tags}}">

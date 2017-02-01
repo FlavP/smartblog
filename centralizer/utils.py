@@ -22,7 +22,7 @@ class UpdateObjectsMixin:
     model = None
 
     def get(self, request, slug):
-        new_obj = get_object_or_404(self.model, slug__iexact=slug)
+        new_obj = get_object_or_404(self.model, company_slug__iexact=slug)
         context = {
             'theform': self.form_object(instance=new_obj),
             self.model.__name__.lower(): new_obj,
