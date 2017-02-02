@@ -18,7 +18,6 @@ from django.contrib import admin
 from centralizer.urls import (relatednews as rel_urls, company as co_urls, tag as tag_urls)
 from blog import urls as blurls
 from contact import urls as curls
-from .views import redir
 from django.contrib.flatpages import urls as flurl
 
 urlpatterns = [

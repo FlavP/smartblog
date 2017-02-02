@@ -29,14 +29,22 @@ class Article(models.Model):
             self.title,
             self.added.strftime("%Y-%m-%d")
         )
-    # this is our invention, it is not a method that Dkango looks for convention, like get_absolute_url    
+    # this is our invention, it is not a method that Dkango looks for convention, like get_absolute_url
+
     def get_update_url(self):
         return reverse('blog_article_update',
                        kwargs={
                            'year': self.added.year,
                            'month': self.added.month,
                            'slug': self.art_slug})
-    
+
+    def get_absolute_url(self):
+        return reverse("blog_article_details",
+                       kwargs={
+                           "year": self.added.year,
+                           "month": self.added.month,
+                           "slug": self.art_slug})
+
     def get_delete_url(self):
         return reverse('blog_article_delete',
                        kwargs={
@@ -48,10 +56,3 @@ class Article(models.Model):
         verbose_name = "blog article"
         ordering = ["-added", "title"]
         get_latest_by = 'added'
-
-    def get_absolute_url(self):
-        return reverse("blog_article_list",
-                       kwargs={
-                                "year": self.added.year,
-                                "month": self.added.month,
-                                "slug":self.art_slug})
