@@ -5,7 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from .forms import TagForms, CompanyForms, NewsForm
 from django.views.generic import View
-from .utils import ViewObjectsMixin, UpdateObjectsMixin, DeleteObjectMixin
+from .utils import ViewObjectsMixin, UpdateObjectsMixin, DeleteObjectMixin, ViewDetails
 from .models import RelatedNews
 # Create your views here.
 #we are already in centralizer, so we don't need call centralizer.models

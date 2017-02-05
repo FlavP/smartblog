@@ -53,7 +53,7 @@
 {% endif %}
 
 {% if company.articles.all %}
-    <section>
+    <section class="meta offset-by-two one-third column">
     <h3>
         Article{{ company.article.count|pluralize }}
     </h3>
@@ -66,6 +66,9 @@
         </li>
         {% endfor %}
     </ul>
+    </section>
+    {% else %}
+    <section class="meta offset-by-two two-thirds column">
     </section>
 {% endif %}
 </article>

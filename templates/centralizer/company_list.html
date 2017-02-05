@@ -3,10 +3,12 @@
 {# Overrides parent block #}
 {{  block.super }} - List of Companies - {{ tag.tagname|title }}
 {% endblock %}
-{% block content %}
+{% block original %}
 <h2>Company List</h2>
     <div class="mobile">
+    {% block new_button %}
     <a href="{% url 'centralizer_create_company' %}" class="button button-primary">Create a new company</a>
+    {% endblock %}
     </div>
 
    {% if has_pages %}

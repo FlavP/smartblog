@@ -3,6 +3,7 @@
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'centralizer/style.css' %}" />
 {% endblock %}
+{% block content %}
 <div class="row">
 <section class="eight columns">
     {% block original %}
@@ -21,3 +22,4 @@
 {% block footer %}{% endblock %}
 </div>
 </div>
+{% endblock %}

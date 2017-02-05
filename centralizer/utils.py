@@ -57,4 +57,37 @@ class DeleteObjectMixin:
         #nu avem nevoie de redirect, pentru ca stim url-ul
         new_obj.delete()
         return HttpResponseRedirect(self.success)
-        
+
+class ViewDetails:
+    context_name = ''
+    context = ''
+    template = ''
+    template_end = '_details'
+    model = None
+    
+    def get_context_name(self):
+        if self.context_name:
+            return self.context_name
+        elif isinstance(self.object, Model):
+            return self.object._meta.name
+        else:
+            return None
+    
+    def get_template(self):
+        if self.template:
+            return self.template
+        return "{application}/{model}{end}.html".format(application=self.object.meta.app_label,
+                                                        model=self.object._meta.model_name,
+                                                        end=self.template_end
+                                                        )
+    
+    def get(self, request, slug):
+        if self.object._meta.model_name == 'Tag':
+            isthere = get_object_or_404(
+                     self.model, tag_slug__iexact = slug
+                    ) 
+        elif self.object._meta.model_name == 'Company':
+            isthere = get_object_or_404(
+                     self.model, company_slug__iexact = slug
+                    )
+        return render(request, self.template, {self.context: isthere})         
