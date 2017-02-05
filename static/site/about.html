@@ -1,14 +1,8 @@
 {% extends parent_template|default:"base.html" %}
-
 {% block title %}
-{{ block.super }} - {{ flat.title }}
+{{ block.super }} - About
 {% endblock %}
 
 {% block content %}
-<div>
-<div>
-<h1>{{ flat.title }}</h1>
-{{ flat.content }}
-</div>
-</div>
+I mind my own bussiness
 {% endblock %}

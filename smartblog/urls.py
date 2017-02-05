@@ -18,7 +18,7 @@ from django.contrib import admin
 from centralizer.urls import (relatednews as rel_urls, company as co_urls, tag as tag_urls)
 from blog import urls as blurls
 from contact import urls as curls
-from django.contrib.flatpages import urls as flurl
+from django.views.generic import RedirectView, TemplateView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -30,5 +30,6 @@ urlpatterns = [
     url(r'^blog/', include(blurls)),
     url(r'^contact/', include(curls)),
     #nici aici nu pui $ la sfarsit, you have been warned
-    url(r'^', include(flurl)),
+    url(r'^$', RedirectView.as_view(pattern_name='blog_article_list', permanent=False)),
+    url(r'^about/$', TemplateView.as_view(template_name='site/about.html', name='about_section')),
 ]

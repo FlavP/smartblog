@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import View
+from django.views.generic import View, CreateView, ListView
 from django.views.decorators.http import require_http_methods
 from .forms import ArticleForm
 
@@ -11,7 +11,7 @@ def article_details(request, year, month, slug):
     return render(request,"blog/article_details.html",
                   {"article": art})
 
-class ArticleList(View):
+class ArticleList(ListView):
 
     template = "blog/article_list.html"
     def get(self, request):
@@ -19,7 +19,7 @@ class ArticleList(View):
         context = {"article_list": articles}
         return render(request, self.template, context)
 
-class CreateArticle(View):
+class CreateArticle(CreateView):
     theformclass = ArticleForm
     template = "blog/artcreate.html"
 

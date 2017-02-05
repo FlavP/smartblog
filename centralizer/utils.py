@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
+from django.views.generic import View
+from django.core.exceptions import ImproperlyConfigured
 
 class ViewObjectsMixin:
     theformclass = None
@@ -15,6 +17,8 @@ class ViewObjectsMixin:
             return redirect(saved_form)
         else:
             return render(request, self.template, {'theform': self.theformclass()})
+
+class CreateViewForm(View:
 
 class UpdateObjectsMixin:
     form_object = None
@@ -58,7 +62,7 @@ class DeleteObjectMixin:
         new_obj.delete()
         return HttpResponseRedirect(self.success)
 
-class ViewDetails:
+class ViewDetails(View):
     context_name = ''
     context = ''
     template = ''
@@ -81,13 +85,33 @@ class ViewDetails:
                                                         end=self.template_end
                                                         )
     
-    def get(self, request, slug):
-        if self.object._meta.model_name == 'Tag':
-            isthere = get_object_or_404(
-                     self.model, tag_slug__iexact = slug
-                    ) 
-        elif self.object._meta.model_name == 'Company':
-            isthere = get_object_or_404(
-                     self.model, company_slug__iexact = slug
-                    )
-        return render(request, self.template, {self.context: isthere})         
+    #aici iei numele obiectului pe care il dai in context pentru a fi trimis in template. testezi daca ai obiectul si daca-l ai chemi metooda aia
+    #care-ti returneaza numele modelului, pe care il folosesti pe post de cheie de dictionar, cu valoare obiectului
+    def get_context(self):
+        context = {}
+        if self.object:
+            context_name = (self.get_context_name())
+        if context_name:
+            context[context_name] = (self.object)
+        return context
+    
+    def get_object_from_model(self):
+        slug = self.kwargs.get('slug')
+        if slug is None:
+            raise AttributeError("{c} expects {p} parameter from URL pattern".format(c = self.__class__.__name__, p='slug'))
+        if self.model:
+            obj = self.object._meta.model_name
+            if obj == 'RelatedNews':
+                composed = 'related_slug'                 
+            else:
+                composed = obj + '_slug'
+            return get_object_or_404(self.model, composed__iexact = slug)
+        else:
+            raise ImproperlyConfigured("{c} need {a} attribute to work.".format(c = self.__class__.__name__, a="model"))
+    
+    def get(self, request, **kwargs):
+        self.kwargs = kwargs
+        self.obj = self.get_object_from_model()
+        template = self.get_template()
+        context = self.get_context()
+        return render(request, self.template, context)         
