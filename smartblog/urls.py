@@ -31,5 +31,5 @@ urlpatterns = [
     url(r'^contact/', include(curls)),
     #nici aici nu pui $ la sfarsit, you have been warned
     url(r'^$', RedirectView.as_view(pattern_name='blog_article_list', permanent=False)),
-    url(r'^about/$', TemplateView.as_view(template_name='site/about.html', name='about_section')),
+    url(r'^about/$', TemplateView.as_view(template_name='site/about.html'), name='about_section'),
 ]
