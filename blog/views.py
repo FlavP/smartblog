@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import View, CreateView, ListView
+from django.views.generic import View, CreateView, ListView, YearArchiveView
 from django.views.decorators.http import require_http_methods
 from .forms import ArticleForm
 
@@ -75,4 +75,8 @@ class DeleteArticle(View):
         article.delete()
         return redirect('blog_article_list')          
        
+class YearlyOrdered(YearArchiveView):
+    model = Article
+    date_field = 'added'
+    make_object_list = True
         
