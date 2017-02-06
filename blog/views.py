@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import View, CreateView, ListView, YearArchiveView
+from django.views.generic import View, CreateView, ListView, YearArchiveView, MonthArchiveView, ArchiveIndexView
 from django.views.decorators.http import require_http_methods
 from .forms import ArticleForm
 
@@ -11,9 +11,15 @@ def article_details(request, year, month, slug):
     return render(request,"blog/article_details.html",
                   {"article": art})
 
-class ArticleList(ListView):
-
-    template = "blog/article_list.html"
+class ArticleList(ArchiveIndexView):
+    allow_empty = True # allow display empty
+    allow_future = True # allow object with dates in the future
+    context_object_name = 'article_list'
+    date_field = 'added'
+    make_object_list = True
+    model = Article
+    paginate_by = 5
+    template_name = "blog/article_list.html"
     def get(self, request):
         articles = Article.objects.all()
         context = {"article_list": articles}
@@ -79,4 +85,8 @@ class YearlyOrdered(YearArchiveView):
     model = Article
     date_field = 'added'
     make_object_list = True
-        
+
+class MonthlyOrdered(MonthArchiveView):
+    model = Article
+    date_field = 'added'
+    month_format = '%m'

@@ -6,7 +6,11 @@
 {% block content %}
 <div class="eight columns">
 <div class="row">
+<div class="mobile">
+    <a href="{% url 'blog_article_create' %}" class="button button-primary">Write a new article</a>
+</div>
   <div class="desktop four columns">
+  <a href="{% url 'blog_article_create' %}" class="button button-primary">Write a new article</a>
     <h3>Monthly Archive</h3>
       <ul>
       {% for mo in date_list %}
@@ -15,16 +19,44 @@
       </ul>
   </div>
 </div>
-
+<h2>All Articles for {{ year|date: "Y" }}</h2>
+{% for art in article_list %}
+    <article class="list-items">
+    <header>
+        <h3>
+            <a href="{{ article.get_absolute_url }}">
+                {{ art.title|title }}
+            </a>
+        </h3>
+        <p>
+            Written:
+            <time datetime="{{ art.added|date:'Y-m-d' }}">
+                {{ art.added|date:"l, F j, Y" }}
+            </time>
+        </p>
+    </header>
+    <p>{{ art.content|truncatewords:20 }}
+    <a href="{{ art.get_absolute_url }}">Read more&hellip;</a>
+    </p>
+    </article>
+      <ul class="inline">
+      <li>
+          <a href="{{ art.update_url }}">Edit Article</a>
+      </li>
+      <li>
+          <a href="{{ art.get_delete_url }}">Delete Article</a>
+      </li>
+  </ul>
+{% endfor %}
 <div class="row">
-  <div class="twelve columns"></ul>
+  <div class="twelve columns">
     <ul class="pagination">
     {% if previous_year %}
-    <li><a href="{% url 'yearly_archive'.previous_year|date:"Y" %}">Articles From: {{ previous_year|date:"Y" }}</a></li>
-    <% endif %>
+    <li><a href="{% url 'yearly_archive' previous_year|date:"Y" %}">Articles From: {{ previous_year|date:"Y" }}</a></li>
+    {% endif %}
     {% if next_year %}
-    <li><a href="{% url 'yearly_archive'.next_year|date:"Y" %}">Articles From: {{ next_year|date:"Y" }}</a></li>
-    <% endif %>
+    <li><a href="{% url 'yearly_archive' next_year|date:"Y" %}">Articles From: {{ next_year|date:"Y" }}</a></li>
+    {% endif %}
     </ul>
   </div>
 </div>

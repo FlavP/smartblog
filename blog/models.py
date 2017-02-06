@@ -55,6 +55,9 @@ class Article(models.Model):
     def get_yearly_archive_url(self):
         return reverse('yearly_archive', kwargs={'year': self.added.year})
 
+    def get_monthly_archive_url(self):
+        return reverse('monthly_archive', kwargs={'year': self.added.year, 'month': self.added.month})
+
     class Meta:
         verbose_name = "blog article"
         ordering = ["-added", "title"]

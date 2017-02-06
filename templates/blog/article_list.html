@@ -38,4 +38,12 @@
     {% empty %}
     <p><em>No Articles Available for now</em></p>
 {% endfor %}
+    <div class="desktop four columns">
+    <h3>Articles</h3>
+    <ul>
+        {% for dat in date_list %}
+            <li><a href="{% url 'yearly_archive' dat|date:"Y" %}">{{ y|date:"Y" }}</a> </li>
+        {% endfor %}
+    </ul>
+    </div>
 {% endblock %}
