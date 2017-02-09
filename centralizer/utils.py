@@ -18,7 +18,46 @@ class ViewObjectsMixin:
         else:
             return render(request, self.template, {'theform': self.theformclass()})
 
-class CreateViewForm(View:
+
+class PaginationMixin:
+    page_param = 'page'
+
+    def _pagination(self, pag_number):
+        return "?{page}={n}".format(page=self.page_param, n=pag_number)
+
+    def previous_page(self, page):
+        if page.has_previous():
+            return self._pagination(page.previous_page_number())
+        return None
+
+    def next_page(self, page):
+        if page.has_next():
+            return self._pagination(page.next_page_number())
+        return None
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        page = context.get('page_obj')
+        if page is not None:
+            context.update({'previous_page_url': self.previous_page(page), 'next_page_url': self.next_page(page)})
+        return context
+
+    def first_pg(self, page):
+        #not to show on first page
+        if page.number > 1:
+            return self._pagination(1)
+        return None
+
+    def previous_page(self, page):
+        if (page.has_previous() and page.number > 2):
+            return self._pagination(self.previous_page_number())
+        return None
+
+    def last_pg(self, page):
+        last_page = page.paginator.num_pages
+        if page.number < last_page:
+            return self._pagination(last_page)
+        return None
 
 class UpdateObjectsMixin:
     form_object = None

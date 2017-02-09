@@ -4,13 +4,15 @@ from django.template import Context, loader
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from .forms import TagForms, CompanyForms, NewsForm
-from django.views.generic import View, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import View, DetailView, CreateView, DeleteView, ListView
 #from .utils import ViewObjectsMixin, UpdateObjectsMixin, DeleteObjectMixin, ViewDetails, CreateViewForm
 from .models import RelatedNews
 # Create your views here.
 #we are already in centralizer, so we don't need call centralizer.models
 from .models import Tag, Company
 from django.urls.base import reverse_lazy
+from core.utils import UpdateView
+from .utils import PaginationMixin
 
 def taglist(request):
     return render(request, "centralizer/taglist.html",
@@ -24,12 +26,17 @@ def tagdetails(request, slug):
 def companies(request):
     return render(request, "centralizer/company_list.html", {"companies": Company.objects.all()})
 
-class TagList(View):
-    template = "centralizer/taglist.html"
+class TagList(PaginationMixin, ListView):
+    #template = "centralizer/taglist.html"
+    paginate_by = 4
+    model = Tag
+
+    '''
     def get(self, request):
         tags = Tag.objects.all()
         context = {"taglist": tags}
         return render(request, self.template, context)
+
 
 class PagedTag(View):
     tags_per_page = 4
@@ -54,9 +61,12 @@ class PagedTag(View):
         context = {"taglist": tags, "next_page": next_page, "prev_page": prev_page, "has_pages": tagpage.has_other_pages(),
                    "pagus": pagus}
         return render(request, self.template, context)
+'''
 
-class CompanyList(View):
-    pagini = 4
+class CompanyList(PaginationMixin, ListView):
+    model = Company
+    paginate_by = 4
+    '''
     template = "centralizer/company_list.html"
     page_query = 'page'
     
@@ -81,6 +91,7 @@ class CompanyList(View):
         context = {'companies' : page, 'paginator': pagin,
                    "has_pages": page.has_other_pages(), "next_page": next_page, "previous_page": previous_page}
         return render(request, self.template, context)
+'''
 
 def company_details(request, slug):
     comp = get_object_or_404(Company, company_slug__iexact = slug)
@@ -155,9 +166,10 @@ class CreateNews(CreateView):
         else:
             return render(request, self.template, {"form": self.template})
             '''
-class UpdateNews(View):
-    theformclass = NewsForm
-    template = "centralizer/relnewsup.html"
+#more on GCBV's search classy class-based views
+class UpdateNews(UpdateView):
+    form_class = NewsForm
+    model = RelatedNews
 
     def get_update_url(self):
         return reverse("centralizer_update_related", kwargs={'pk': self.pk})
@@ -204,15 +216,13 @@ class DeleteNews(DeleteView):
         return(self.object.company.get_absolute_url())
         
 class UpdateTag(UpdateView):
-    theformclass = TagForms
+    form_class = TagForms
     model = Tag
-    template = 'centralizer/tagupdate.html'
-    
+
 class UpdateCompany(UpdateView):
-    theformclass = CompanyForms
+    form_class = CompanyForms
     model = Company
-    template = 'centralizer/compupdate.html'
-    
+
 class DeleteTag(DeleteView):
     model = Tag
     success = reverse_lazy('centralizer_taglist')
