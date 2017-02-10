@@ -39,10 +39,11 @@ class Article(models.Model):
                            'slug': self.art_slug})
 
     def get_absolute_url(self):
+        #la reverse ai nevoie ori de kwargs, ori de pk
         return reverse("blog_article_details",
                        kwargs={
                            "year": self.added.year,
-                           "month": self.added.month,
+                           "month": self.added.strftime('%b').lower(),
                            "slug": self.art_slug})
 
     def get_delete_url(self):

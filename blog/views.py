@@ -1,15 +1,21 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import View, CreateView, ListView, YearArchiveView, MonthArchiveView, ArchiveIndexView
+from django.views.generic import View, CreateView, ListView, YearArchiveView, MonthArchiveView, ArchiveIndexView, DetailView, DeleteView
+from core.utils import UpdateView
 from django.views.decorators.http import require_http_methods
+from django.urls import reverse_lazy
 from .forms import ArticleForm
 
 # Create your views here.
 from .models import Article
+from .utils import GetArticleMixin
 @require_http_methods(['HEAD', 'GET'])
+
 def article_details(request, year, month, slug):
     art = get_object_or_404(Article, added__year = year, added__month = month, art_slug = slug)
     return render(request,"blog/article_details.html",
                   {"article": art})
+
+
 
 class ArticleList(ArchiveIndexView):
     allow_empty = True # allow display empty
@@ -24,6 +30,27 @@ class ArticleList(ArchiveIndexView):
         articles = Article.objects.all()
         context = {"article_list": articles}
         return render(request, self.template, context)
+
+class ArticleDetails(DetailView, GetArticleMixin):
+    model = Article
+
+'''
+modul de dinainte de mixin
+class ArticleDetails(DateDetailView):
+    date_field = 'added'
+    model = Article
+    month_format = '%m'
+
+    def get_day(self):
+        return 1
+
+    def _make_single_date_lookup(self, date):
+        date_field = self.get_date_field()
+        return {
+            date_field + '__year': date.year,
+            date_field + '__month': date.month,
+        }
+'''
 
 class CreateArticle(CreateView):
     theformclass = ArticleForm
@@ -40,9 +67,9 @@ class CreateArticle(CreateView):
         else:
             return render(request, self.template, {'theform': self.theformclass})
         
-class UpdateArticle(View):
-    theformclass = ArticleForm
-    template = "blog/artupdate.html"
+class UpdateArticle(UpdateView, GetArticleMixin):
+    #inherit GetArticleMixin for identification with year, month, slug
+    form_class = ArticleForm
     model = Article
     
     def take_object(self, year, month, art_slug):
@@ -71,6 +98,13 @@ class UpdateArticle(View):
                        "article": article}
             return render(request, self.template, context)
 
+class DeleteArticle(DeleteView, GetArticleMixin):
+    model = Article
+    #delete has to have a redirect page that redirects you if the request is succesful
+    success_url = reverse_lazy('blog_article_list')
+
+'''
+#old DeleteArticle
 class DeleteArticle(View):
     def get(self, request, year, month, slug):
         article = get_object_or_404(Article, added__year = year, added__month = month, art_slug = slug)
@@ -80,7 +114,8 @@ class DeleteArticle(View):
         article = get_object_or_404(Article, added__year = year, added_month = month, art_slug = slug)
         article.delete()
         return redirect('blog_article_list')          
-       
+'''
+
 class YearlyOrdered(YearArchiveView):
     model = Article
     date_field = 'added'

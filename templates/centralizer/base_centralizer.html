@@ -28,6 +28,11 @@
                 <a href="{{ previous_page_url }}">Previous</a>
                 </li>
             {% endif %}
+                {% if first_page_url %}
+            <li>
+            <a href="{{ first_page_url }}">First Page</a>
+            </li>
+        {% endif %}
         <li>
             Page: {{ page_obj.number }}
             of: {{ paginator.num_pages }}
@@ -37,6 +42,11 @@
             <a href="{{ next_page_url }}">
                 Next
             </a>
+            </li>
+        {% endif %}
+        {% if last_page_url %}
+            <li>
+            <a href="{{ last_page_url }}">Last Page</a>
             </li>
         {% endif %}
         </ul>

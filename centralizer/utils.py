@@ -25,16 +25,6 @@ class PaginationMixin:
     def _pagination(self, pag_number):
         return "?{page}={n}".format(page=self.page_param, n=pag_number)
 
-    def previous_page(self, page):
-        if page.has_previous():
-            return self._pagination(page.previous_page_number())
-        return None
-
-    def next_page(self, page):
-        if page.has_next():
-            return self._pagination(page.next_page_number())
-        return None
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         page = context.get('page_obj')
@@ -51,6 +41,12 @@ class PaginationMixin:
     def previous_page(self, page):
         if (page.has_previous() and page.number > 2):
             return self._pagination(self.previous_page_number())
+        return None
+
+    def next_page(self, page):
+        last = page.paginator.num_pages
+        if (page.has_next() and page.number < last - 1):
+            return self._pagination(page.next_page_number())
         return None
 
     def last_pg(self, page):
