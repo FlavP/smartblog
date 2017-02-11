@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.views.generic import View
 from django.core.exceptions import ImproperlyConfigured
+from .models import Company
 
 class ViewObjectsMixin:
     theformclass = None
@@ -150,3 +151,16 @@ class ViewDetails(View):
         template = self.get_template()
         context = self.get_context()
         return render(request, self.template, context)         
+
+class CompanyMixin:
+    company_slug_url_kwarg = 'company_slug'
+    company_context_object_name = 'company'
+    
+    def get_context_data(self, **kwargs):
+        company_slug = self.kwargs.get(self.company_slug_url_kwarg)
+        company = get_object_or_404(Company, company_slug__iexact=company_slug)
+        context = {
+            self.company_context_object_name: company,
+            }
+        context.update(kwargs)
+        return super().get_context_data(**context)
