@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from centralizer.urls import (relatednews as rel_urls, company as co_urls, tag as tag_urls)
+from centralizer.urls import (company as co_urls, tag as tag_urls)
 from blog import urls as blurls
 from contact import urls as curls
 from django.views.generic import RedirectView, TemplateView
@@ -23,7 +23,7 @@ from django.views.generic import RedirectView, TemplateView
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     #nu mai pui $ la sfarsit, atentie atentie atentie!!!
-    url(r'^related/', include(rel_urls)),
+    #url(r'^related/', include(rel_urls)),
     url(r'^tag/', include(tag_urls)),
     url(r'^company/', include(co_urls)),
     #url(r'^page', include(flurl)),

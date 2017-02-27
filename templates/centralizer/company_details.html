@@ -40,15 +40,18 @@
 	      Delete News
 	    </a>
 	</li>
-        {% endfor %}        
-    </ul>
-<ul>
     <li>
         <a href="{{ relatednews.get_update_url }}">
             Edit Related
         </a>
     </li>
+        {% endfor %}
 </ul>
+<p>
+    <a href="{{ company.get_relnews_create_url }}" class="button">
+        Add News
+    </a>
+</p>
 </section>
 {% endif %}
 

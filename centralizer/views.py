@@ -12,7 +12,7 @@ from .models import RelatedNews
 from .models import Tag, Company
 from django.urls.base import reverse_lazy
 from core.utils import UpdateView
-from .utils import PaginationMixin
+from .utils import PaginationMixin, GetRelatedObjectMixin, CompanyMixin #RelatedFormMixin
 
 def taglist(request):
     return render(request, "centralizer/taglist.html",
@@ -238,3 +238,23 @@ class CompanyDetails(DetailView):
     
 class TagDetails(DetailView):
     model = Tag
+
+class RelatedNewsCreate(GetRelatedObjectMixin, CompanyMixin, CreateView): #RelatedFormMixin):
+    form_class = NewsForm
+    model = RelatedNews
+
+    def get_initial(self):
+        company_slug = self.kwargs.get(self.company_slug_url_kwarg)
+        self.company = get_object_or_404(Company, company_slug__iexact = company_slug)
+        initial = {self.company: self.company}
+        initial.update(self.initial)
+        return initial
+
+class RelatedNewsDelete(CompanyMixin, DeleteView):
+    model = RelatedNews
+    slug_url_kwarg = 'related_slug'
+
+class RelatedNewsUpdate(GetRelatedObjectMixin, CompanyMixin, UpdateView):
+    form_class = NewsForm
+    model = RelatedNews
+    slug_url_kwarg = 'related_slug'

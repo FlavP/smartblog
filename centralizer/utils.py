@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.views.generic import View
 from django.core.exceptions import ImproperlyConfigured
-from .models import Company
+from django.db.models import Model
+from .models import Company, RelatedNews
 
 class ViewObjectsMixin:
     theformclass = None
@@ -152,7 +153,7 @@ class ViewDetails(View):
         context = self.get_context()
         return render(request, self.template, context)         
 
-class CompanyMixin:
+class CompanyMixin():
     company_slug_url_kwarg = 'company_slug'
     company_context_object_name = 'company'
     
@@ -164,3 +165,48 @@ class CompanyMixin:
             }
         context.update(kwargs)
         return super().get_context_data(**context)
+
+class GetRelatedObjectMixin():
+    def get_object(self, queryset=None):
+        company_slug = self.kwargs.get(
+            self.company_slug_url_kwarg
+        )
+        news_slug = self.kwargs.get(self.related_news_url_kwarg)
+        return get_object_or_404(news_slug__iexact = news_slug ,company_slug__iexact=company_slug)
+
+    def get_context_data(self, **kwargs):
+        if hasattr(self, 'company'):
+            context = {
+                self.company_context_object_name: self.company,
+            }
+        else:
+            company_slug = self.kwargs.get(self.company_slug_url_kwarg)
+            company = get_object_or_404(Company,
+                                             company_slug__iexact=company_slug
+                                             )
+            context = {
+                self.company_context_object_name: company
+            }
+            context.update(kwargs)
+            return super().get_context_data(**context)
+
+'''
+class RelatedFormMixin():
+
+    def form_valid(self, form):
+        company = get_object_or_404(Company, company_slug__iexact = self.kwargs.get(self.company_slug_url_kwarg))
+        self.object = form.save(company_obj=company)
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        if self.request.method in ('POST', 'PUT'):
+            self.company = get_object_or_404(
+                Company,
+                company_slug__iexact=self.kwargs.get(self.company_slug_url_kwarg)
+            )
+            data = kwargs['data'].copy()
+            data.update({'company': self.company})
+            kwargs['data'] = data
+            return kwargs
+'''

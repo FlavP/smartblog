@@ -64,6 +64,9 @@ class Company(models.Model):
     def get_delete_url(self):
         return reverse("centralizer_company_delete", kwargs={"slug": self.company_slug})
 
+    def get_relnews_create_url(self):
+        return reverse('centralizer_create_news', kwargs={"company_slug": self.company_slug})
+
 class RelatedNews(models.Model):
     title = models.CharField(max_length=63)
     pub_date = models.DateField('date published')
@@ -75,7 +78,10 @@ class RelatedNews(models.Model):
         return self.company.get_absolute_url()
     
     def get_delete_url(self):
-        return reverse('centralizer_delete_news', kwargs={'pk': self.pk})
+        return reverse('centralizer_delete_news', kwargs={'company_slug': self.company.company_slug, 'news_slug': self.news_slug})
+
+    def get_update_url(self):
+        return reverse('centralizer_update_news', kwargs={'company_slug': self.company.company_slug, 'news_slug': self.news_slug})
 
     def __str__(self):
         #self.company calls the str (string) method of the company object
