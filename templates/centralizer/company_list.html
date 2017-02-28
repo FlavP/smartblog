@@ -28,11 +28,11 @@
     {% endif %}
 <ul>
 <li>
-    Page {{ companies.number }}
+    Page {{ company_list.number }}
     of {{ paginator.num_pages }}
 </li>
 
-    {% for comp in companies %}
+    {% for comp in company_list %}
     <li>
         <a href="{{ comp.get_absolute_url }}">
             {{ comp.company_name }}

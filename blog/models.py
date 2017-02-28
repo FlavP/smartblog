@@ -43,7 +43,7 @@ class Article(models.Model):
         return reverse("blog_article_details",
                        kwargs={
                            "year": self.added.year,
-                           "month": self.added.strftime('%b').lower(),
+                           "month": self.added.month,
                            "slug": self.art_slug})
 
     def get_delete_url(self):

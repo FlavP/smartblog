@@ -18,7 +18,7 @@ def article_details(request, year, month, slug):
 
 
 
-class ArticleList(ArchiveIndexView):
+class ArticleList(ListView):
     allow_empty = True # allow display empty
     allow_future = True # allow object with dates in the future
     context_object_name = 'article_list'
@@ -27,15 +27,18 @@ class ArticleList(ArchiveIndexView):
     model = Article
     paginate_by = 5
     template_name = "blog/article_list.html"
+    '''
     def get(self, request):
         articles = Article.objects.all()
         context = {"article_list": articles}
         return render(request, self.template, context)
+'''
 
 class ArticleDetails(DetailView, GetArticleMixin):
     model = Article
     allow_future = True
     date_field = 'added'
+    template_name = "blog/article_details.html"
 
 '''
 modul de dinainte de mixin
@@ -57,8 +60,8 @@ class ArticleDetails(DateDetailView):
 
 class CreateArticle(CreateView):
     theformclass = ArticleForm
-    template = "blog/artcreate.html"
-
+    template_name = "blog/artcreate.html"
+'''
     def get(self, request):
         return render(request, self.template, {'theform': self.theformclass})
 
@@ -69,7 +72,7 @@ class CreateArticle(CreateView):
             return redirect(new_article)
         else:
             return render(request, self.template, {'theform': self.theformclass})
-        
+'''
 class UpdateArticle(UpdateView, GetArticleMixin):
     #inherit GetArticleMixin for identification with year, month, slug
     form_class = ArticleForm

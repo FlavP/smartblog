@@ -27,9 +27,10 @@ def companies(request):
     return render(request, "centralizer/company_list.html", {"companies": Company.objects.all()})
 
 class TagList(PaginationMixin, ListView):
-    #template = "centralizer/taglist.html"
+
     paginate_by = 4
     model = Tag
+    template_name = "centralizer/taglist.html"
 
     '''
     def get(self, request):
@@ -118,8 +119,8 @@ def create_tag(request):
             #show unbound HTML form
             
 class CreateTag(CreateView):
-    theformclass = TagForms
-    template = 'centralizer/tagform.html'
+    form_class = TagForms
+    template_name = 'centralizer/tagform.html'
 '''
 The old way, without refactoring. Now we import the Object Mixin with the view and use it's methods with the form class and template defined
     def get(self, request):
@@ -134,8 +135,8 @@ The old way, without refactoring. Now we import the Object Mixin with the view a
             return render(request, self.template, {'form': bounded_form})
 '''
 class CreateCompany(CreateView):
-    theformclass = CompanyForms
-    template = 'centralizer/compcreate.html'
+    form_class = CompanyForms
+    template_name = 'centralizer/compcreate.html'
 '''
     def get(self, request):
         return render(request, self.template, {'form': self.theformclass})
@@ -150,7 +151,7 @@ class CreateCompany(CreateView):
 '''
     
 class CreateNews(CreateView):
-    theformclass = NewsForm
+    form_class = NewsForm
     template = 'centralizer/relnewscreate.html'
 '''
     def get(self, request):
@@ -238,6 +239,7 @@ class CompanyDetails(DetailView):
     
 class TagDetails(DetailView):
     model = Tag
+
 
 class RelatedNewsCreate(GetRelatedObjectMixin, CompanyMixin, CreateView): #RelatedFormMixin):
     form_class = NewsForm

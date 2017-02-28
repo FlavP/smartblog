@@ -30,7 +30,7 @@
 <a href="{% url 'centralizer_create_tag' %}">Create New Tag</a>
 </div>
 <ul>
-    {% for tag in taglist %}
+    {% for tag in tag_list %}
     <li>
         <a href="{{ tag.get_absolute_url }}">
             {{ tag.tagname|title }}
