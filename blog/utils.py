@@ -9,12 +9,34 @@ class GetArticleMixin:
     errors = {'url_kwargs':'We have this {} so the url must be made up by year, month, slug in this order',
               'not_there': 'No {} by this date and slug.'
               }
+    month_url_kwarg = 'month'
+    year_url_kwarg = 'year'
+    slug_url_kwarg = 'art_slug'
+    date = 'added'
+    model = Article
 
     def get_object(self, queryset=None):
-        year = self.kwargs.get('year')
-        month = self.kwargs.get('month')
-        slug = self.kwargs.get('art_slug')
-        return get_object_or_404(Article, added__year=year, added__month=month, art_slug__iexact=slug)
+        year = self.kwargs.get(self.year_url_kwarg)
+        month = self.kwargs.get(self.month_url_kwarg)
+        slug = self.kwargs.get(self.slug_url_kwarg)
+        datefl = self.date
+        slugfl = self.get_art_slug_field()
+        quer_filter = {
+        datefl + '__year': year,
+        datefl + '__month': month,
+        slugfl: slug,
+        }
+        if (year is None or month is None or slug is None):
+            raise AttributeError(self.errors['url_kwargs'].format(self.__class__.__name__))
+        #return get_object_or_404(Article, added__year = year, added__month = month, art_slug__iexact = slug)
+        if queryset is None:
+            queryset = self.get_queryset()
+            queryset = queryset.filter(**quer_filter)
+            try:
+                obi = queryset.get()
+            except queryset.model.DoesNotExist:
+                raise Http404(self.errors['not_there'].format(queryset.model._meta.verbose_name))
+        return get_object_or_404(Article, **quer_filter)
 
 class YearMixin(SecYearMixin):
     year_query_kwarg = 'year'
