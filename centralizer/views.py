@@ -236,10 +236,11 @@ class DeleteCompany(DeleteView):
     
 class CompanyDetails(DetailView):
     model = Company
-    slug_url_kwarg = 'company_slug'
+    slug_field = 'company_slug'
     
 class TagDetails(DetailView):
     model = Tag
+    slug_field = 'tag_slug'
 
 
 class RelatedNewsCreate(GetRelatedObjectMixin, CompanyMixin, CreateView): #RelatedFormMixin):
