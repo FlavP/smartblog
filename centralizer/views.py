@@ -236,6 +236,7 @@ class DeleteCompany(DeleteView):
     
 class CompanyDetails(DetailView):
     model = Company
+    slug_url_kwarg = 'company_slug'
     
 class TagDetails(DetailView):
     model = Tag
