@@ -4,7 +4,6 @@ from core.utils import UpdateView
 from django.views.decorators.http import require_http_methods
 from django.urls import reverse_lazy
 from .forms import ArticleForm
-from .utils import DateObjectMixin
 
 # Create your views here.
 from .models import Article
@@ -38,6 +37,7 @@ class ArticleDetails(DetailView, GetArticleMixin):
     model = Article
     allow_future = True
     date_field = 'added'
+    slug_field = 'art_slug'
     template_name = "blog/article_details.html"
 
 '''
@@ -79,6 +79,8 @@ class UpdateArticle(UpdateView, GetArticleMixin):
     model = Article
     allow_future = True
     date_field = 'added'
+    slug_field = 'art_slug'
+
 #old one bellow
 '''    
     def take_object(self, year, month, art_slug):
@@ -107,9 +109,10 @@ class UpdateArticle(UpdateView, GetArticleMixin):
                        "article": article}
             return render(request, self.template, context)
 '''
-class DeleteArticle(DeleteView, DateObjectMixin):
+class DeleteArticle(DeleteView):
     model = Article
     date_field = 'added'
+    slug_field = 'art_slug'
     allow_future = True
     #delete has to have a redirect page that redirects you if the request is succesful
     success_url = reverse_lazy('blog_article_list')
