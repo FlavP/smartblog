@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 from django.conf.global_settings import EMAIL_BACKEND, SERVER_EMAIL,\
     DEFAULT_FROM_EMAIL, EMAIL_SUBJECT_PREFIX, MANAGERS, STATICFILES_DIRS
+from .log_filters import ManagementFilter
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,6 +32,33 @@ ALLOWED_HOSTS = []
 SITE_ID = 1
 
 # Application definition
+verbose = (
+    "[%(asctime)s] %(levelname)s "
+    "[%(name)s:%(lineone)s] %(message)s"
+)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        }
+    },
+    'formatters': {
+        'verbose': {
+            'format': verbose,
+            "datefmt": "%Y-%b-%d %H-%M-%S",
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'levels': 'DEBUG',
+            'formatter': 'verbose',
+        }
+    },
+}
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -55,6 +83,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 ]
