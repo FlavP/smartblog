@@ -219,10 +219,13 @@ class DeleteNews(DeleteView):
 class UpdateTag(UpdateView):
     form_class = TagForms
     model = Tag
+    slug_field = 'tag_slug'
+    template_name = 'centralizer/tagupdate.html'
 
 class UpdateCompany(UpdateView):
     form_class = CompanyForms
     model = Company
+    slug_field = 'company_slug'
 
 class DeleteTag(DeleteView):
     model = Tag
