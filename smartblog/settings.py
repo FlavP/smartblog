@@ -14,6 +14,7 @@ import os
 from django.conf.global_settings import EMAIL_BACKEND, SERVER_EMAIL,\
     DEFAULT_FROM_EMAIL, EMAIL_SUBJECT_PREFIX, MANAGERS, STATICFILES_DIRS
 from .log_filters import ManagementFilter
+from django.core.urlresolvers import reverse_lazy
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -59,6 +60,10 @@ LOGGING = {
         }
     },
 }
+
+LOGIN_REDIRECT_URL = reverse_lazy('blog_article_list')
+LOGIN_URL = reverse_lazy('dj-auth:login')
+LOGOUT_URL = reverse_lazy('dj-auth:logout')
 
 INSTALLED_APPS = [
     'django.contrib.admin',

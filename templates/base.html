@@ -27,7 +27,19 @@
     </div>
     </header>
     </div>
-
+<div class="status row">
+    <div class="offset-by-eight four columns">
+        <ul class="inline">
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'dj-auth:logout' %}?next={{ request.path }}" >Log out </a></li>
+                {% else %}
+                <li>
+                <a href="{% url dj-auth:login %}?next={{ request.path }}">Log in</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
 
 <div>
     <p>
