@@ -19,8 +19,10 @@ from centralizer.urls import (company as co_urls, tag as tag_urls)
 from blog import urls as blurls
 from contact import urls as curls
 from django.views.generic import RedirectView, TemplateView
+from user import urls as user_urls
 
 urlpatterns = [
+    url(r'^user/', include(user_urls, app_name='user', namespace='dj-auth')),
     url(r'^admin/', include(admin.site.urls)),
     #nu mai pui $ la sfarsit, atentie atentie atentie!!!
     #url(r'^related/', include(rel_urls)),

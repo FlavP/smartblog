@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.flatpages',
+    'user',
     #we are using sites in order to serve multiple websites using a shared codebas (a page for lawyers and a page for customers)
     'django.contrib.sites',
     'centralizer',
