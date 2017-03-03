@@ -63,3 +63,6 @@ class Article(models.Model):
         verbose_name = "blog article"
         ordering = ["-added", "title"]
         get_latest_by = 'added'
+        permissions = (
+            ("view_future_article",
+             "Can view unpublished Article"),)

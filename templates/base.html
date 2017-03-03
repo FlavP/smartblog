@@ -34,7 +34,7 @@
                 <li><a href="{% url 'dj-auth:logout' %}?next={{ request.path }}" >Log out </a></li>
                 {% else %}
                 <li>
-                <a href="{% url dj-auth:login %}?next={{ request.path }}">Log in</a>
+                <a href="{% url 'dj-auth:login' %}?next={{ request.path }}">Log in</a>
                 </li>
             {% endif %}
         </ul>

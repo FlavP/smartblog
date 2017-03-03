@@ -5,6 +5,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from .forms import TagForms, CompanyForms, NewsForm
 from django.views.generic import View, DetailView, CreateView, DeleteView, ListView
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth import PermissionDenied
+from django.contrib.auth.decorators import user_passes_test
 #from .utils import ViewObjectsMixin, UpdateObjectsMixin, DeleteObjectMixin, ViewDetails, CreateViewForm
 from .models import RelatedNews
 # Create your views here.
@@ -13,6 +17,7 @@ from .models import Tag, Company
 from django.urls.base import reverse_lazy
 from core.utils import UpdateView
 from .utils import PaginationMixin, GetRelatedObjectMixin, CompanyMixin #RelatedFormMixin
+from user.decorators import custom_login_required, require_authenticated_permission, class_login_required
 
 def taglist(request):
     return render(request, "centralizer/taglist.html",
@@ -117,10 +122,22 @@ def create_tag(request):
             #show bound html form with errors
             # request.method != 'POST'
             #show unbound HTML form
-            
+
+def in_create_group(user):
+    if user.groups.filter(name='authors').exists():
+        return True
+    else:
+        raise PermissionDenied
+
+@require_authenticated_permission('centralizer.add_tag')
 class CreateTag(CreateView):
     form_class = TagForms
+    model = Tag
     template_name = 'centralizer/tagform.html'
+
+#it is a method decorator, deci login required este fara paranteze (este scris ca o metoda)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 '''
 The old way, without refactoring. Now we import the Object Mixin with the view and use it's methods with the form class and template defined
     def get(self, request):
@@ -215,12 +232,16 @@ class DeleteNews(DeleteView):
             
     def get_success_url(self):
         return(self.object.company.get_absolute_url())
-        
+
+@class_login_required
 class UpdateTag(UpdateView):
     form_class = TagForms
     model = Tag
     slug_field = 'tag_slug'
     template_name = 'centralizer/tagupdate.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
 class UpdateCompany(UpdateView):
     form_class = CompanyForms
