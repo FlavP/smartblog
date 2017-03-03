@@ -166,7 +166,8 @@ class CreateCompany(CreateView):
         else:
             return render(request, self.template, {'form': self.theformclass})
 '''
-    
+
+@require_authenticated_permission('centralizer.add_news')
 class CreateNews(CreateView):
     form_class = NewsForm
     template = 'centralizer/relnewscreate.html'
@@ -185,6 +186,7 @@ class CreateNews(CreateView):
             return render(request, self.template, {"form": self.template})
             '''
 #more on GCBV's search classy class-based views
+@require_authenticated_permission('centralizer.change_news')
 class UpdateNews(UpdateView):
     form_class = NewsForm
     model = RelatedNews
@@ -233,7 +235,7 @@ class DeleteNews(DeleteView):
     def get_success_url(self):
         return(self.object.company.get_absolute_url())
 
-@class_login_required
+@require_authenticated_permission('centralizer.change_tag')
 class UpdateTag(UpdateView):
     form_class = TagForms
     model = Tag
@@ -243,6 +245,7 @@ class UpdateTag(UpdateView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+@require_authenticated_permission('centralizer.change_company')
 class UpdateCompany(UpdateView):
     form_class = CompanyForms
     model = Company

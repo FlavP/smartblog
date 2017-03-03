@@ -4,6 +4,7 @@ from core.utils import UpdateView
 from django.views.decorators.http import require_http_methods
 from django.urls import reverse_lazy
 from .forms import ArticleForm
+from user.decorators import require_authenticated_permission
 
 # Create your views here.
 from .models import Article
@@ -58,6 +59,7 @@ class ArticleDetails(DateDetailView):
         }
 '''
 
+@require_authenticated_permission('blog.add_article')
 class CreateArticle(CreateView):
     theformclass = ArticleForm
     template_name = "blog/artcreate.html"
@@ -73,6 +75,7 @@ class CreateArticle(CreateView):
         else:
             return render(request, self.template, {'theform': self.theformclass})
 '''
+@require_authenticated_permission('blog.change_article')
 class UpdateArticle(UpdateView, GetArticleMixin):
     #inherit GetArticleMixin for identification with year, month, slug
     form_class = ArticleForm
