@@ -6,7 +6,10 @@
 {% block content %}
 {# we use the pipe simbol to apply filters to variables (like capitilize the names and titles) #}
 <h2> {{ tag.tagname|title }} </h2><!-- name of tag -->
-{% if tag.companies.all %}
+{% if not tag.companies.all and not tag.articles.all %}
+    {% if not tag.companies.all %}
+    <p>This tag is not associated with any company</p>
+{% else %}
     <p>Tag is associated with
     {{ tag.companies.count }}
     compan{{ tag.companies.count|pluralize:"y,ies" }}.
@@ -23,7 +26,11 @@
     </ul>
 </section>
 {% endif %}
-{% if tag.articles.all %}
+    {% if not tag.articles.all %}
+        <p>This tag is not associated with any article</p>
+    {% else %}
+    {% if perms.blog.view_future_article %}
+
 <section>
     <h3>Articles</h3>
     <ul><!-- list of articles related to the tag -->
@@ -34,13 +41,16 @@
     </ul>
 </section>
 {% endif %}
-{% if not tag.companies.all and not tag.articles.all %}
+
     <p>This tag has no content associated to it</p>
 {% endif %}
+    {% if perms.centralizer.change_tag or perms.centralizer.delete_tag %}
 <ul><li>
 <a href="{{tag.get_update_url}}">Edit Tag</a>
 </li>
 <li>
 <a href="{{tag.get_delete_url}}">Delete Tag</a>
 </li></ul>
+    {% endif %}
+    {% endif %}
 {% endblock %}

@@ -24,7 +24,7 @@
 </dl>
 
 {{ company.description|linebreaks }}
-
+{% if company.relatednews_set.all or company.articles.all or perms.centralizer.add_relatednews %}
 {% if company.relatednews_set.all %}
 <section>
     <h3>Related News</h3>
@@ -55,7 +55,7 @@
 </section>
 {% endif %}
 
-{% if company.articles.all %}
+{% if company.related_news.all or perms.blog.view_future_article and company.articles.all or company.articles|length > 0 or perms.centralizer.add_relatednews %}
     <section class="meta offset-by-two one-third column">
     <h3>
         Article{{ company.article.count|pluralize }}
@@ -73,6 +73,7 @@
     {% else %}
     <section class="meta offset-by-two two-thirds column">
     </section>
+{% endif %}
 {% endif %}
 </article>
 

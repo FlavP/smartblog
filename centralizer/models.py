@@ -1,5 +1,5 @@
 from django.db import models
-import datetime
+from datetime import date
 from django.core.urlresolvers import reverse
 
 # Create your models here.
@@ -28,6 +28,10 @@ class Tag(models.Model):
     
     def get_delete_url(self):
         return reverse('centralizer_delete_tag', kwargs={"slug":self.tag_slug})
+
+    def published_articles(self):
+        return self.articles.filter(added__lt=date.today())
+
 
 class Company(models.Model):
     companyid = models.AutoField(

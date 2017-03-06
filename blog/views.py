@@ -1,10 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import View, CreateView, ListView, YearArchiveView, MonthArchiveView, ArchiveIndexView, DetailView, DeleteView
+from django.views.generic import View, CreateView, ListView, YearArchiveView, \
+    MonthArchiveView, ArchiveIndexView, DetailView, DeleteView
 from core.utils import UpdateView
 from django.views.decorators.http import require_http_methods
 from django.urls import reverse_lazy
 from .forms import ArticleForm
 from user.decorators import require_authenticated_permission
+from .utils import AllowFutureArticleMixin
 
 # Create your views here.
 from .models import Article
@@ -18,9 +20,9 @@ def article_details(request, year, month, slug):
 
 
 
-class ArticleList(ListView):
+class ArticleList(ArchiveIndexView, AllowFutureArticleMixin):
     allow_empty = True # allow display empty
-    allow_future = True # allow object with dates in the future
+    #allow_future = True # allow object with dates in the future
     context_object_name = 'article_list'
     date_field = 'added'
     make_object_list = True
