@@ -1,4 +1,7 @@
 from smtplib import SMTPException
+import traceback
+import logging
+from logging import CRITICAL, ERROR
 
 from django.template.loader import render_to_string
 from django.contrib.auth.tokens import default_token_generator as toka_toka
@@ -7,9 +10,11 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.conf import settings
 from django.core.mail import (BadHeaderError, send_mail)
+from django.core.exceptions import ValidationError
 
 class ActivationMailFormMixin:
     mail_validation_error = ''
+    logger = logging.getLogger(__name__)
 
     @property
     def mail_sent(self):
@@ -77,4 +82,56 @@ class ActivationMailFormMixin:
             else:
                 err_type = 'unknow'
             return (False, err_type)
+        else:
+            if no_send > 0:
+                return (True, None)
+            self.log_mail_error(**mail_kwargs)
+            return (False, "unkown error")
+
+    def send_mail(self, user, **kwargs):
+        request = kwargs.pop('request', None)
+        if request is None:
+            tb = traceback.format_stack()
+            tb = [' ' + line for line in tb]
+            self.logger.warning('send_mail was called without request.\nTraceback:\n{}'.format(''.join(tb)))
+            self._mail_sent = False
+            return self._mail_sent
+        self._mail_sent, error = (self._send_mail(request, user, **kwargs))
+        if not self._mail_sent:
+            self.add_error(None, ValidationError(self.mail_validation_error, code=error))
+            return self._mail_sent
+
+    def log_mail_error(self, **kwargs):
+        msg_list = [
+            'Activation email was not sent. \n',
+            'from email: {from_email}\n',
+            'subject: {subject}\n',
+            'message: {message}\n',
+        ]
+        recipient_list = kwargs.get('recipient_list', [])
+        for reci in recipient_list:
+            msg_list.insert(1, 'recipient: {r}\n'.format(r=reci))
+        if 'error' in kwargs:
+            level = ERROR
+            err_msg = (
+                'error: {0.__class__.__name}\n'
+                'args: {0.args}\n'
+            )
+            err_info = err_msg.format(kwargs['error'])
+            err_msg.insert(1, err_info)
+        else:
+            level = CRITICAL
+        msg = ''.join(msg_list).format(**kwargs)
+        self.logger.log(level, msg)
+
+class MailContextViewMixin:
+    email_template_name = 'user/email_create.txt'
+    subject_template_name = ('user/subject_create.txt')
+
+    def get_save_kwargs(self, request):
+        return {
+            'email_template_name': self.email_template_name,
+            'request': request,
+            'subject_template_name': self.subject_template_name,
+        }
 
