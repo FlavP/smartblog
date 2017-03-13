@@ -32,3 +32,13 @@ class ResendActivationEmailForm(ActivationMailFormMixin, forms.Form):
     email = forms.EmailField()
 
     mail_validation_error = ('Couldn\'t resent activation email, please try again later')
+    
+    def save(self, **kwargs):
+        User = get_user_model()
+        try:
+            user = User.objects.get(email=self.cleaned_data['emil'])
+        except:
+            logger.warning("The user with email {} does not exist".format(self.cleaned_data['email']))
+            return None
+        self.send_mail(user=user, **kwargs)
+        return user

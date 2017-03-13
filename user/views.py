@@ -13,7 +13,7 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.conf import settings
 from django.views.decorators.cache import never_cache
 from django.core.urlresolvers import reverse_lazy
-from .forms import UserCreationForm
+from .forms import UserCreationForm, ResendActivationEmailForm
 from .utils import MailContextViewMixin
 from django.views.generic import View
 
@@ -60,6 +60,7 @@ class CreateAccount(MailContextViewMixin, View):
             error = (bound_form.non_field_errors())
             for er in error:
                 error(request, er)
+                return redirect('dj-auth:resend_activation')
         return TemplateResponse(self.template_name, {'form': bound_form})
 
 class ActivateAccount(View):
@@ -81,6 +82,36 @@ class ActivateAccount(View):
             return redirect(self.success_url)
         else:
             return TemplateResponse(request, self.template_name)
+        
+class ResendActivationEmail(MailContextViewMixin, View):
+    form_class = ResendActivationEmailForm
+    success_url = reverse_lazy('dj-auth:login')
+    template_name = 'user/resend_activation.html'
+    
+    @method_decorator(csrf_protect)
+    def get(self, request):
+        #forma clasica, bine ar fi s-o memorezi un pic
+        return TemplateResponse(request, self.template_name, {'form': self.form_class})
+    
+    @method_decorator(csrf_protect)
+    def post(self, request):
+        #bounduim formularul, iar ar fi bine s-o stii pe asta
+        bound_form = self.form_class(request.POST)
+        if bound_form.is_valid():
+            user = bound_form.save(**self.get_save_kwargs(request))
+            success(request, 'Activation Email Sent')
+            return redirect(self.success_url)
+        if (user is not None and not bound_form.mail_sent):
+            err = (bound_form.non_field_errors())
+            for er in err:
+                error(request, er)
+            if err:
+                bound_form.errors.pop('__all__')
+        return TemplateResponse(request, self.template_name, {'form': bound_form})
+        
+        
+        
+    
 
 
 

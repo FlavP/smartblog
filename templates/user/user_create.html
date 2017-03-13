@@ -6,6 +6,7 @@
 {% block content %}
     <div class="row">
     <div class="offset-by-two eight columns">
+    <div class="center"><a href="{% url 'dj-auth:resend_activation' %}">If you lost your activation email</a></div>
         <form action="dj-auth:create" method="post">
             {% csrf_token %}
             {{ form.as_p }}
