@@ -1,6 +1,11 @@
+import logging
+from django import forms
 from django.contrib.auth.forms import UserCreationForm as BSUserCreationForm
 from django.contrib.auth import get_user_model
 from .utils import ActivationMailFormMixin
+
+logger = logging.getLogger(__name__)
+
 
 class UserCreationForm(BSUserCreationForm, ActivationMailFormMixin):
 
@@ -22,3 +27,8 @@ class UserCreationForm(BSUserCreationForm, ActivationMailFormMixin):
             if send_mail:
                 self.send_mail(user=user, **kwargs)
                 return user
+
+class ResendActivationEmailForm(ActivationMailFormMixin, forms.Form):
+    email = forms.EmailField()
+
+    mail_validation_error = ('Couldn\'t resent activation email, please try again later')
