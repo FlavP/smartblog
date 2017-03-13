@@ -1,0 +1,9 @@
+Hi there from {{ site_name }}
+
+We have received a request to create an account for this email address.
+
+To activate, please click on:
+
+{{ protocol }}://{{ domain }}{% url 'dj-auth:activate' uid token %}
+
+If you have not issued such a request, please ignore this message
