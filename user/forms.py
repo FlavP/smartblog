@@ -1,4 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm as BSUserCreationForm
+from django.contrib.auth import get_user_model
 from .utils import ActivationMailFormMixin
 
 class UserCreationForm(BSUserCreationForm, ActivationMailFormMixin):
@@ -10,3 +11,14 @@ class UserCreationForm(BSUserCreationForm, ActivationMailFormMixin):
 
         def save(self, **kwargs):
             user = super().save(commit=False)
+            if not user.pk:
+                user.is_active = False
+                send_mail = True
+            else:
+                send_mail = False
+            user.save()
+            #save many-tomany relations
+            self.save_m2m()
+            if send_mail:
+                self.send_mail(user=user, **kwargs)
+                return user

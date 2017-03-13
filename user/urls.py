@@ -1,7 +1,8 @@
 from django.conf.urls import url, include
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import AuthenticationForm
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, TemplateView
+from .views import DisableAccount, ActivateAccount, CreateAccount
 from django.core.urlresolvers import reverse_lazy
 from .views import DisableAccount
 
@@ -40,4 +41,8 @@ urlpatterns = [
         'extra_content': {'form': AuthenticationForm}
     }, name='pw_reset_complete'),
     url(r'^disable/$', DisableAccount.as_view(), name='disable'),
+    url(r'^create/done/$', TemplateView.as_view(), template_name='user/user_create_done.html', name='create_done'),
+    url(r'^create/$', CreateAccount.as_view(), name='create'),
+    url(r'^activate/(?P<uid64>[0-9A-Za-z_\-]+)/(?P<token>[0-9-A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+    ActivateAccount.as_view(), name='activate'),
     ]
