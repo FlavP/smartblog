@@ -28,7 +28,7 @@ SECRET_KEY = ')&cxo&y_wg903gyc(t=sf=&wuew#a!-$949al&9s=7&hp*box$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+DEBUG_PROPAGATE_EXCEPTIONS=True
 ALLOWED_HOSTS = []
 SITE_ID = 1
 

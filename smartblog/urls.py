@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from centralizer.urls import (company as co_urls, tag as tag_urls)
+from centralizer.urls import company as co_urls, tag as tag_urls
 from blog import urls as blurls
 from contact import urls as curls
 from django.views.generic import RedirectView, TemplateView

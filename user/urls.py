@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import RedirectView, TemplateView
-from .views import DisableAccount, ActivateAccount, CreateAccount, ResendActvationEmail
+from .views import DisableAccount, ActivateAccount, CreateAccount, ResendActivationEmail
 from django.core.urlresolvers import reverse_lazy
 from .views import DisableAccount
 
@@ -46,6 +46,6 @@ urlpatterns = [
     url(r'^create/$', CreateAccount.as_view(), name='create'),
     url(r'^activate/(?P<uid64>[0-9A-Za-z_\-]+)/(?P<token>[0-9-A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
     ActivateAccount.as_view(), name='activate'),
-    url(r'^activate/resend/$', ResendActvationEmail.as_view(), name='resend_activation'),
+    url(r'^activate/resend/$', ResendActivationEmail.as_view(), name='resend_activation'),
     url(r'^activate', RedirectView.as_view(pattern_name='dj-auth:resend_activation', permanent=False)),
     ]

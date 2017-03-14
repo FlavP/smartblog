@@ -1,9 +1,9 @@
 from django.conf.urls import url
-from ..views import companies, company_details, CreateCompany, DeleteCompany, UpdateCompany, CompanyList, \
-CompanyDetails, DeleteNews, UpdateNews, CreateNews, RelatedNewsCreate
-from ..models import Company
+from centralizer.views import companies, company_details, CreateCompany, DeleteCompany, UpdateCompany, CompanyList, \
+    CompanyDetails, DeleteNews, UpdateNews, CreateNews, RelatedNewsCreate
+from centralizer.models import Company
     
-urlpatterns  = [    
+urlpatterns = [
     url(r'^create/$', CreateCompany.as_view(), name='centralizer_create_company'),
     url(r'^(?P<slug>[\w\-]+)/update/$', UpdateCompany.as_view(), name='centralizer_update_company'),
     url(r'^(?P<slug>[\w\-]+)/delete/$', DeleteCompany.as_view(), name='centralizer_delete_company'),
